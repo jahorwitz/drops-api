@@ -24,7 +24,7 @@ export const Medication: ListConfig<Lists.Medication.TypeInfo<any>, any> = list(
       }),
       createdBy: relationship({ ref: "User", many: false }),
     },
-  }
+  },
 );
 
 // dropdown select option for unitOfMeasure, if we were to use a list from an API source or something
