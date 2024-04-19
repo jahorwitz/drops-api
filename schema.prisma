@@ -11,12 +11,26 @@ generator client {
   provider = "prisma-client-js"
 }
 
-model User {
+model Activity {
   id            String    @id @default(uuid())
   name          String    @default("")
-  email         String    @unique @default("")
+  amount        Int?
+  unitOfMeasure String    @default("")
+  startTime     DateTime
+  endTime       DateTime?
+  user          User?     @relation("Activity_user", fields: [userId], references: [id])
+  userId        String?   @map("user")
+
+  @@index([userId])
+}
+
+model User {
+  id            String     @id @default(uuid())
+  name          String     @default("")
+  email         String     @unique @default("")
   password      String
-  isAdmin       Boolean   @default(true)
-  createdAt     DateTime? @default(now())
-  lastLoginDate DateTime? @default(now())
+  isAdmin       Boolean    @default(true)
+  createdAt     DateTime?  @default(now())
+  lastLoginDate DateTime?  @default(now())
+  activities    Activity[] @relation("Activity_user")
 }
