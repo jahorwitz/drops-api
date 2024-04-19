@@ -22,7 +22,7 @@ export default withAuth(
       idField: { kind: "uuid" },
       useMigrations: true,
     },
-    
+
     telemetry: false,
     graphql: {
       playground: true,
