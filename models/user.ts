@@ -39,6 +39,6 @@ export const User: ListConfig<any, any> = list({
     lastLoginDate: timestamp({
       defaultValue: { kind: "now" },
     }),
-    activities: relationship({ref: 'Activity.user', many:true}),
+    activities: relationship({ ref: "Activity.user", many: true }),
   },
 });
