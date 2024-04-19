@@ -6,6 +6,7 @@ import {
   text,
   password,
   timestamp,
+  relationship,
 } from "@keystone-6/core/fields";
 
 export const User: ListConfig<any, any> = list({
@@ -38,5 +39,6 @@ export const User: ListConfig<any, any> = list({
     lastLoginDate: timestamp({
       defaultValue: { kind: "now" },
     }),
+    activities: relationship({ref: 'Activity.user', many:true}),
   },
 });

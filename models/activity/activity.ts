@@ -1,6 +1,6 @@
 import { list } from "@keystone-6/core";
 import type { ListConfig } from "@keystone-6/core";
-import { integer, text, timestamp } from "@keystone-6/core/fields";
+import { integer, text, timestamp, relationship } from "@keystone-6/core/fields";
 
 
 export const Activity: ListConfig<any, any> = list(
@@ -19,6 +19,7 @@ export const Activity: ListConfig<any, any> = list(
       unitOfMeasure: text(),
       startTime: timestamp({ validation: { isRequired: true } }),
       endTime: timestamp(),
+      user: relationship({ref: 'User.activities', many: false}), 
     },
   },
 );
