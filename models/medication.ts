@@ -17,11 +17,7 @@ export const Medication: ListConfig<Lists.Medication.TypeInfo<any>, any> = list(
       name: text({ validation: { isRequired: true } }),
       amount: integer({ validation: { isRequired: true } }),
       unitOfMeasure: text({ validation: { isRequired: true } }),
-      hour: integer({ validation: { isRequired: true, min: 0, max: 12 } }),
-      minutes: integer({ validation: { isRequired: true, min: 0, max: 59 } }),
-      period: text({
-        validation: { isRequired: true, length: { min: 2, max: 2 } },
-      }),
+      time: text({ validation: { isRequired: true } }),
       createdBy: relationship({ ref: "User", many: false }),
     },
   },
