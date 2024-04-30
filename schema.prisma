@@ -11,12 +11,27 @@ generator client {
   provider = "prisma-client-js"
 }
 
+model Medication {
+  id            String  @id @default(uuid())
+  name          String  @default("")
+  amount        Int
+  unitOfMeasure String  @default("")
+  hour          Int
+  minutes       Int
+  period        String  @default("")
+  createdBy     User?   @relation("Medication_createdBy", fields: [createdById], references: [id])
+  createdById   String? @map("createdBy")
+
+  @@index([createdById])
+}
+
 model User {
-  id            String    @id @default(uuid())
-  name          String    @default("")
-  email         String    @unique @default("")
-  password      String
-  isAdmin       Boolean   @default(true)
-  createdAt     DateTime? @default(now())
-  lastLoginDate DateTime? @default(now())
+  id                        String       @id @default(uuid())
+  name                      String       @default("")
+  email                     String       @unique @default("")
+  password                  String
+  isAdmin                   Boolean      @default(true)
+  createdAt                 DateTime?    @default(now())
+  lastLoginDate             DateTime?    @default(now())
+  from_Medication_createdBy Medication[] @relation("Medication_createdBy")
 }
