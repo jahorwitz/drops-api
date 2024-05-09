@@ -29,7 +29,7 @@ model User {
   name          String     @default("")
   email         String     @unique @default("")
   password      String
-  isAdmin       Boolean    @default(true)
+  isAdmin       Boolean    @default(false)
   createdAt     DateTime?  @default(now())
   lastLoginDate DateTime?  @default(now())
   activities    Activity[] @relation("Activity_user")

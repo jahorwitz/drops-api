@@ -12,10 +12,10 @@ import {
 export const User: ListConfig<any, any> = list({
   access: {
     operation: {
-      query: ({ session }) => !!session?.data.isAdmin,
-      create: ({ session }) => !!session?.data.isAdmin,
-      update: ({ session }) => !!session?.data.isAdmin,
-      delete: ({ session }) => !!session?.data.isAdmin,
+      query: ({ session }) => !!session,
+      create: ({ session }) => !!session,
+      update: ({ session }) => !!session,
+      delete: ({ session }) => !!session,
     },
   },
   fields: {
@@ -26,13 +26,13 @@ export const User: ListConfig<any, any> = list({
     }),
     password: password({
       validation: {
-        length: { min: 10, max: 100 },
+        length: { min: 5, max: 20 },
         isRequired: true,
         rejectCommon: true,
       },
       bcrypt: require("bcryptjs"),
     }),
-    isAdmin: checkbox({ defaultValue: true }),
+    isAdmin: checkbox({ defaultValue: false }),
     createdAt: timestamp({
       defaultValue: { kind: "now" },
     }),

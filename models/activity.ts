@@ -10,10 +10,10 @@ import {
 export const Activity: ListConfig<any, any> = list({
   access: {
     operation: {
-      query: ({ session }) => !!session?.data.isAdmin,
-      create: ({ session }) => !!session?.data.isAdmin,
-      update: ({ session }) => !!session?.data.isAdmin,
-      delete: ({ session }) => !!session?.data.isAdmin,
+      query: ({ session }) => !!session,
+      create: ({ session }) => !!session,
+      update: ({ session }) => !!session,
+      delete: ({ session }) => !!session,
     },
   },
   fields: {
