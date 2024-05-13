@@ -20,15 +20,15 @@
   },
   "dependencies": {
     "@keystone-6/auth": "^7.0.0",
-    "@keystone-6/core": "^5.2.0",
+    "@keystone-6/core": "^6.1.0",
     "@keystone-6/fields-document": "^7.0.0",
     "@prisma/debug": "^5.3.1",
     "@prisma/generator-helper": "^5.3.1",
     "dotenv": "^16.4.5",
     "fs-extra": "^11.2.0",
     "geojson": "^0.5.0",
-    "graphql-cli": "^4.1.0",
-    "keystone": "^0.3.22",
+    "graphql-cli": "^3.0.14",
+    "keystone": "^4.2.1",
     "lodash": "^4.17.21",
     "multer": "^1.4.4-lts.1",
     "resolve-url": "^0.2.1",
@@ -38,7 +38,7 @@
     "uuid": "^9.0.1"
   },
   "devDependencies": {
-    "@keystonejs/keystone": "^19.3.4",
+    "@keystonejs/keystone": "^17.1.2",
     "@types/babel__core": "^7.20.5",
     "@types/bcryptjs": "^2.4.6",
     "@types/geojson": "^7946.0.14",
