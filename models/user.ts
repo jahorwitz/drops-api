@@ -9,7 +9,7 @@ import {
   relationship,
 } from "@keystone-6/core/fields";
 
-export const User: ListConfig<any, any> = list({
+export const User: ListConfig<any> = list({
   access: {
     operation: {
       query: ({ session }) => !!session,
