@@ -21,7 +21,6 @@ export default withAuth(
       enableLogging: true,
       idField: { kind: "uuid" },
     },
-
     telemetry: false,
     graphql: {
       playground: true,

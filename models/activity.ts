@@ -15,6 +15,10 @@ export const Activity: ListConfig<any> = list({
       update: ({ session }) => !!session,
       delete: ({ session }) => !!session,
     },
+    item: {
+      update: ({ session, item }) => item.userId === session.data.id,
+      delete: ({ session, item }) => item.userId === session.data.id,
+    },
   },
   fields: {
     name: text({ validation: { isRequired: true } }),
@@ -25,3 +29,7 @@ export const Activity: ListConfig<any> = list({
     user: relationship({ ref: "User.activities", many: false }),
   },
 });
+
+/*
+create: ({ session, item }) => !!session,
+*/
