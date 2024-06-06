@@ -29,7 +29,3 @@ export const Activity: ListConfig<any> = list({
     user: relationship({ ref: "User.activities", many: false }),
   },
 });
-
-/*
-create: ({ session, item }) => !!session,
-*/
