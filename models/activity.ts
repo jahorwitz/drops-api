@@ -31,10 +31,14 @@ export const Activity: ListConfig<any> = list({
     amount: integer({
       defaultValue: 0,
       db: { map: "my_integer" },
-      validation: { isRequired: true },
       isIndexed: "unique",
     }),
-    unitOfMeasure: text(),
+    unitOfMeasure: text({
+      defaultValue: "...",
+      db: { map: "text", nativeType: "VarChar(40)" },
+      isIndexed: "unique",
+      ui: { displayMode: "textarea" },
+    }),
     startTime: timestamp({ 
       defaultValue: "2020-10-05T00:00:00-07:00",
       db: { map: "my_start_timestamp", updatedAt: true },
@@ -44,7 +48,6 @@ export const Activity: ListConfig<any> = list({
     endTime: timestamp({
       defaultValue: "2020-10-05T00:00:00-07:00",
       db: { map: "my_end_timestamp", updatedAt: true },
-      validation: { isRequired: true },
       isIndexed: "unique",
     }),
   },
