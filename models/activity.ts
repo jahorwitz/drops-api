@@ -21,11 +21,32 @@ export const Activity: ListConfig<any> = list({
     },
   },
   fields: {
-    name: text({ validation: { isRequired: true } }),
-    amount: integer(),
+    name: text({ 
+      defaultValue: "...",
+      db: { map: "my_text", nativeType: "VarChar(40)" },
+      validation: { isRequired: true },
+      isIndexed: "unique",
+      ui: { displayMode: "textarea" }
+     }),
+    amount: integer({
+      defaultValue: 0,
+      db: { map: "my_integer" },
+      validation: { isRequired: true },
+      isIndexed: "unique",
+    }),
     unitOfMeasure: text(),
-    startTime: timestamp({ validation: { isRequired: true } }),
-    endTime: timestamp(),
-    user: relationship({ ref: "User.activities", many: false }),
+    startTime: timestamp({ 
+      defaultValue: "2020-10-05T00:00:00-07:00",
+      db: { map: "my_start_timestamp", updatedAt: true },
+      validation: { isRequired: true },
+      isIndexed: "unique",
+     }),
+    endTime: timestamp({
+      defaultValue: "2020-10-05T00:00:00-07:00",
+      db: { map: "my_end_timestamp", updatedAt: true },
+      validation: { isRequired: true },
+      isIndexed: "unique",
+    }),
   },
 });
+
