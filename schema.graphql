@@ -8,6 +8,8 @@ type Goal {
   amount: Int
   unitOfMeasure: String
   daysOfWeek: [GoalDaysOfWeekType!]
+  user(where: UserWhereInput! = {}, orderBy: [UserOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: UserWhereUniqueInput): [User!]
+  userCount(where: UserWhereInput! = {}): Int
 }
 
 enum GoalTypeType {
@@ -38,6 +40,7 @@ input GoalWhereInput {
   name: StringFilter
   amount: IntFilter
   unitOfMeasure: StringFilter
+  user: UserManyRelationFilter
 }
 
 input IDFilter {
@@ -97,6 +100,12 @@ input IntFilter {
   not: IntFilter
 }
 
+input UserManyRelationFilter {
+  every: UserWhereInput
+  some: UserWhereInput
+  none: UserWhereInput
+}
+
 input GoalOrderByInput {
   id: OrderDirection
   type: OrderDirection
@@ -116,6 +125,14 @@ input GoalUpdateInput {
   amount: Int
   unitOfMeasure: String
   daysOfWeek: [GoalDaysOfWeekType!]
+  user: UserRelateToManyForUpdateInput
+}
+
+input UserRelateToManyForUpdateInput {
+  disconnect: [UserWhereUniqueInput!]
+  set: [UserWhereUniqueInput!]
+  create: [UserCreateInput!]
+  connect: [UserWhereUniqueInput!]
 }
 
 input GoalUpdateArgs {
@@ -129,6 +146,12 @@ input GoalCreateInput {
   amount: Int
   unitOfMeasure: String
   daysOfWeek: [GoalDaysOfWeekType!]
+  user: UserRelateToManyForCreateInput
+}
+
+input UserRelateToManyForCreateInput {
+  create: [UserCreateInput!]
+  connect: [UserWhereUniqueInput!]
 }
 
 type User {
@@ -139,6 +162,8 @@ type User {
   isAdmin: Boolean
   createdAt: DateTime
   lastLoginDate: DateTime
+  goals(where: GoalWhereInput! = {}, orderBy: [GoalOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: GoalWhereUniqueInput): [Goal!]
+  goalsCount(where: GoalWhereInput! = {}): Int
 }
 
 type PasswordState {
@@ -162,6 +187,7 @@ input UserWhereInput {
   isAdmin: BooleanFilter
   createdAt: DateTimeNullableFilter
   lastLoginDate: DateTimeNullableFilter
+  goals: GoalManyRelationFilter
 }
 
 input BooleanFilter {
@@ -180,6 +206,12 @@ input DateTimeNullableFilter {
   not: DateTimeNullableFilter
 }
 
+input GoalManyRelationFilter {
+  every: GoalWhereInput
+  some: GoalWhereInput
+  none: GoalWhereInput
+}
+
 input UserOrderByInput {
   id: OrderDirection
   name: OrderDirection
@@ -196,6 +228,14 @@ input UserUpdateInput {
   isAdmin: Boolean
   createdAt: DateTime
   lastLoginDate: DateTime
+  goals: GoalRelateToManyForUpdateInput
+}
+
+input GoalRelateToManyForUpdateInput {
+  disconnect: [GoalWhereUniqueInput!]
+  set: [GoalWhereUniqueInput!]
+  create: [GoalCreateInput!]
+  connect: [GoalWhereUniqueInput!]
 }
 
 input UserUpdateArgs {
@@ -210,6 +250,12 @@ input UserCreateInput {
   isAdmin: Boolean
   createdAt: DateTime
   lastLoginDate: DateTime
+  goals: GoalRelateToManyForCreateInput
+}
+
+input GoalRelateToManyForCreateInput {
+  create: [GoalCreateInput!]
+  connect: [GoalWhereUniqueInput!]
 }
 
 """

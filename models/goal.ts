@@ -7,7 +7,6 @@ import {
   multiselect,
   relationship,
 } from "@keystone-6/core/fields";
-import { User } from "./user";
 
 export const Goal: ListConfig<Lists.Goal.TypeInfo<any>, any> = list({
   access: {
@@ -25,7 +24,6 @@ export const Goal: ListConfig<Lists.Goal.TypeInfo<any>, any> = list({
         { label: "Exercise", value: "Exercise" },
         { label: "Diet", value: "Diet" },
       ],
-      //defaultValue: "Choose One",
       db: { map: "my_select" },
       validation: { isRequired: true },
       isIndexed: true,
@@ -56,3 +54,24 @@ export const Goal: ListConfig<Lists.Goal.TypeInfo<any>, any> = list({
     user: relationship({ ref: "User.goals", many: true }),
   },
 });
+
+//Keystone Examples Notes on authorizing certain actions
+// // Validate there is a user with a valid session
+// const isUser = ({ session }: { session: Session }) => !!session?.data.id;
+
+// // Validate the current user is an Admin
+// const isAdmin = ({ session }: { session: Session }) =>
+//   Boolean(session?.data.isAdmin);
+
+// // Validate the current user is updating themselves
+// const isPerson = ({ session, item }: { session: Session; item: PersonData }) =>
+//   session?.data.id === item.id;
+
+// // Validate the current user is an Admin, or updating themselves
+// const isAdminOrPerson = ({
+//   session,
+//   item,
+// }: {
+//   session: Session;
+//   item: PersonData;
+// }) => isAdmin({ session }) || isPerson({ session, item });

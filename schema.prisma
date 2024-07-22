@@ -18,6 +18,7 @@ model Goal {
   amount        Int
   unitOfMeasure String       @default("")
   daysOfWeek    Json         @default("[]") @map("my_multiselect")
+  user          User[]       @relation("Goal_user")
 
   @@index([type])
 }
@@ -30,6 +31,7 @@ model User {
   isAdmin       Boolean   @default(true)
   createdAt     DateTime? @default(now())
   lastLoginDate DateTime? @default(now())
+  goals         Goal[]    @relation("Goal_user")
 }
 
 enum GoalTypeType {
