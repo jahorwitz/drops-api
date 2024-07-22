@@ -21,13 +21,13 @@ export const Activity: ListConfig<any> = list({
     },
   },
   fields: {
-    name: text({ 
+    name: text({
       defaultValue: "...",
       db: { map: "my_text", nativeType: "VarChar(40)" },
       validation: { isRequired: true },
       isIndexed: "unique",
-      ui: { displayMode: "textarea" }
-     }),
+      ui: { displayMode: "textarea" },
+    }),
     amount: integer({
       defaultValue: 0,
       db: { map: "my_integer" },
@@ -39,12 +39,12 @@ export const Activity: ListConfig<any> = list({
       isIndexed: "unique",
       ui: { displayMode: "textarea" },
     }),
-    startTime: timestamp({ 
+    startTime: timestamp({
       defaultValue: "2020-10-05T00:00:00-07:00",
       db: { map: "my_start_timestamp", updatedAt: true },
       validation: { isRequired: true },
       isIndexed: "unique",
-     }),
+    }),
     endTime: timestamp({
       defaultValue: "2020-10-05T00:00:00-07:00",
       db: { map: "my_end_timestamp", updatedAt: true },
@@ -52,4 +52,3 @@ export const Activity: ListConfig<any> = list({
     }),
   },
 });
-
