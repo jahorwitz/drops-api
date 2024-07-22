@@ -1,6 +1,13 @@
 import { group, list, ListConfig } from "@keystone-6/core";
 import type { Lists } from ".keystone/types";
-import { text, select, integer, multiselect } from "@keystone-6/core/fields";
+import {
+  text,
+  select,
+  integer,
+  multiselect,
+  relationship,
+} from "@keystone-6/core/fields";
+import { User } from "./user";
 
 export const Goal: ListConfig<Lists.Goal.TypeInfo<any>, any> = list({
   access: {
@@ -46,5 +53,6 @@ export const Goal: ListConfig<Lists.Goal.TypeInfo<any>, any> = list({
       ],
       db: { map: "my_multiselect" },
     }),
+    user: relationship({ ref: "User.goals", many: true }),
   },
 });
