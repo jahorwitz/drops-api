@@ -1,5 +1,5 @@
-import { list } from "@keystone-6/core";
-import type { ListConfig } from "@keystone-6/core";
+import { list, ListConfig } from "@keystone-6/core";
+import type { Lists } from ".keystone/types";
 import {
   integer,
   text,
@@ -7,7 +7,7 @@ import {
   relationship,
 } from "@keystone-6/core/fields";
 
-export const Activity: ListConfig<any> = list({
+export const Activity: ListConfig<Lists.Activity.TypeInfo<any>, any> = list({
   access: {
     operation: {
       query: ({ session }) => !!session,
