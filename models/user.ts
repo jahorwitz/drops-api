@@ -6,6 +6,8 @@ import {
   text,
   password,
   timestamp,
+  select,
+  integer,
 } from "@keystone-6/core/fields";
 
 export const User: ListConfig<Lists.User.TypeInfo<any>, any> = list({
@@ -38,5 +40,36 @@ export const User: ListConfig<Lists.User.TypeInfo<any>, any> = list({
     lastLoginDate: timestamp({
       defaultValue: { kind: "now" },
     }),
+    dateOfBirth: timestamp({
+      validation: { isRequired: false },
+    }),
+    weight: integer({
+      validation: { isRequired: false },
+      label: "Weight (lbs)"
+    }),
+    height: text({
+      validation: { isRequired: false },
+      label: "Height (ft and in)",
+      ui: {
+        itemView: { fieldMode: 'edit' }
+      }
+    }),
+    sex: select({
+      options: [
+        { label: 'Male', value: 'male' },
+        { label: 'Female', value: 'female' },
+        { label: 'Other', value: 'other' }
+      ],
+      validation: { isRequired: false },
+    }),
+    diabetesType: select({
+      options: [
+        { label: 'Type 1', value: 'type1' },
+        { label: 'Type 2', value: 'type2' },
+        { label: 'Gestational', value: 'gestational' }
+      ],
+      validation: { isRequired: false },
+    }),
+
   },
 });

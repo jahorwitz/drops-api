@@ -9,6 +9,11 @@ type User {
   isAdmin: Boolean
   createdAt: DateTime
   lastLoginDate: DateTime
+  dateOfBirth: DateTime
+  weight: Int
+  height: String
+  sex: String
+  diabetesType: String
 }
 
 type PasswordState {
@@ -32,6 +37,11 @@ input UserWhereInput {
   isAdmin: BooleanFilter
   createdAt: DateTimeNullableFilter
   lastLoginDate: DateTimeNullableFilter
+  dateOfBirth: DateTimeNullableFilter
+  weight: IntNullableFilter
+  height: StringFilter
+  sex: StringNullableFilter
+  diabetesType: StringNullableFilter
 }
 
 input IDFilter {
@@ -89,6 +99,31 @@ input DateTimeNullableFilter {
   not: DateTimeNullableFilter
 }
 
+input IntNullableFilter {
+  equals: Int
+  in: [Int!]
+  notIn: [Int!]
+  lt: Int
+  lte: Int
+  gt: Int
+  gte: Int
+  not: IntNullableFilter
+}
+
+input StringNullableFilter {
+  equals: String
+  in: [String!]
+  notIn: [String!]
+  lt: String
+  lte: String
+  gt: String
+  gte: String
+  contains: String
+  startsWith: String
+  endsWith: String
+  not: StringNullableFilter
+}
+
 input UserOrderByInput {
   id: OrderDirection
   name: OrderDirection
@@ -96,6 +131,11 @@ input UserOrderByInput {
   isAdmin: OrderDirection
   createdAt: OrderDirection
   lastLoginDate: OrderDirection
+  dateOfBirth: OrderDirection
+  weight: OrderDirection
+  height: OrderDirection
+  sex: OrderDirection
+  diabetesType: OrderDirection
 }
 
 enum OrderDirection {
@@ -110,6 +150,11 @@ input UserUpdateInput {
   isAdmin: Boolean
   createdAt: DateTime
   lastLoginDate: DateTime
+  dateOfBirth: DateTime
+  weight: Int
+  height: String
+  sex: String
+  diabetesType: String
 }
 
 input UserUpdateArgs {
@@ -124,6 +169,11 @@ input UserCreateInput {
   isAdmin: Boolean
   createdAt: DateTime
   lastLoginDate: DateTime
+  dateOfBirth: DateTime
+  weight: Int
+  height: String
+  sex: String
+  diabetesType: String
 }
 
 """

@@ -8,6 +8,7 @@ CREATE TABLE `User` (
     `createdAt` DATETIME(3) NULL DEFAULT CURRENT_TIMESTAMP(3),
     `lastLoginDate` DATETIME(3) NULL DEFAULT CURRENT_TIMESTAMP(3),
 
+
     UNIQUE INDEX `User_email_key`(`email`),
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;

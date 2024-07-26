@@ -19,4 +19,9 @@ model User {
   isAdmin       Boolean   @default(true)
   createdAt     DateTime? @default(now())
   lastLoginDate DateTime? @default(now())
+  dateOfBirth   DateTime?
+  weight        Int?
+  height        String    @default("")
+  sex           String?
+  diabetesType  String?
 }
