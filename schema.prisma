@@ -11,12 +11,34 @@ generator client {
   provider = "prisma-client-js"
 }
 
+model Notification {
+  id               String               @id @default(uuid())
+  type             NotificationTypeType @map("my_select")
+  description      String               @default("")
+  notificationTime DateTime             @default(now())
+  createdAt        DateTime?            @default(now())
+  status           String?              @default("new")
+  archivedAt       DateTime?            @default(now())
+  user             User[]               @relation("Notification_user")
+
+  @@index([type])
+}
+
 model User {
-  id            String    @id @default(uuid())
-  name          String    @default("")
-  email         String    @unique @default("")
+  id            String         @id @default(uuid())
+  name          String         @default("")
+  email         String         @unique @default("")
   password      String
-  isAdmin       Boolean   @default(true)
-  createdAt     DateTime? @default(now())
-  lastLoginDate DateTime? @default(now())
+  isAdmin       Boolean        @default(true)
+  createdAt     DateTime?      @default(now())
+  lastLoginDate DateTime?      @default(now())
+  notifications Notification[] @relation("Notification_user")
+}
+
+enum NotificationTypeType {
+  Activity
+  Diet
+  Glucose
+  Medicaton
+  other
 }

@@ -1,15 +1,12 @@
 import { list } from "@keystone-6/core";
 import type { ListConfig } from "@keystone-6/core";
 import type { Lists } from ".keystone/types";
-import {
-  checkbox,
-  text,
-  timestamp,
-  relationship,
-  select,
-} from "@keystone-6/core/fields";
+import { text, timestamp, relationship, select } from "@keystone-6/core/fields";
 
-const Notification: ListConfig<Lists.Notification.TypeInfo<any>, any> = list({
+export const Notification: ListConfig<
+  Lists.Notification.TypeInfo<any>,
+  any
+> = list({
   access: {
     operation: {
       query: ({ session }) => !!session?.data.isAdmin,
@@ -26,6 +23,7 @@ const Notification: ListConfig<Lists.Notification.TypeInfo<any>, any> = list({
         { label: "Diet", value: "Diet" },
         { label: "Glucose", value: "Glucose" },
         { label: "Medication", value: "Medicaton" },
+        { label: "Other", value: "other" },
       ],
       db: { map: "my_select" },
       validation: { isRequired: true },
@@ -33,7 +31,10 @@ const Notification: ListConfig<Lists.Notification.TypeInfo<any>, any> = list({
       ui: { displayMode: "select" },
     }),
     description: text({ validation: { isRequired: true } }),
-    notificationTime: timestamp({}),
+    notificationTime: timestamp({
+      defaultValue: { kind: "now" },
+      validation: { isRequired: true },
+    }),
     createdAt: timestamp({
       defaultValue: { kind: "now" },
     }),
@@ -45,6 +46,9 @@ const Notification: ListConfig<Lists.Notification.TypeInfo<any>, any> = list({
         { label: "Archived", value: "archived" },
       ],
       defaultValue: "new",
+    }),
+    archivedAt: timestamp({
+      defaultValue: { kind: "now" },
     }),
     user: relationship({ ref: "User.notifications", many: true }),
     //goal: relationship({ ref: "User.goals", many: true }),
