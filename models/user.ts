@@ -1,6 +1,6 @@
 import { list } from "@keystone-6/core";
 import type { ListConfig } from "@keystone-6/core";
-import type { Lists } from ".keystone/types";
+import type { Lists } from "@keystone-6/types";
 import {
   checkbox,
   text,
@@ -45,31 +45,30 @@ export const User: ListConfig<Lists.User.TypeInfo<any>, any> = list({
     }),
     weight: integer({
       validation: { isRequired: false },
-      label: "Weight (lbs)"
+      label: "Weight (lbs)",
     }),
     height: text({
       validation: { isRequired: false },
       label: "Height (ft and in)",
       ui: {
-        itemView: { fieldMode: 'edit' }
-      }
+        itemView: { fieldMode: "edit" },
+      },
     }),
     sex: select({
       options: [
-        { label: 'Male', value: 'male' },
-        { label: 'Female', value: 'female' },
-        { label: 'Other', value: 'other' }
+        { label: "Male", value: "male" },
+        { label: "Female", value: "female" },
+        { label: "Other", value: "other" },
       ],
       validation: { isRequired: false },
     }),
     diabetesType: select({
       options: [
-        { label: 'Type 1', value: 'type1' },
-        { label: 'Type 2', value: 'type2' },
-        { label: 'Gestational', value: 'gestational' }
+        { label: "Type 1", value: "type1" },
+        { label: "Type 2", value: "type2" },
+        { label: "Gestational", value: "gestational" },
       ],
       validation: { isRequired: false },
     }),
-
   },
 });
