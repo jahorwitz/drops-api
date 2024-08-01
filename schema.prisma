@@ -11,6 +11,15 @@ generator client {
   provider = "prisma-client-js"
 }
 
+model Activity {
+  id            String    @id @default(uuid())
+  name          String    @unique @default(" ") @map("my_text") @mysql.VarChar(40)
+  amount        Int?      @unique @default(0) @map("my_integer")
+  unitOfMeasure String    @unique @default(" ") @map("text") @mysql.VarChar(40)
+  startTime     DateTime  @unique @default("2020-10-05T00:00:00-07:00") @updatedAt @map("my_start_timestamp")
+  endTime       DateTime? @unique @default("2020-10-05T00:00:00-07:00") @updatedAt @map("my_end_timestamp")
+}
+
 model User {
   id            String    @id @default(uuid())
   name          String    @default("")

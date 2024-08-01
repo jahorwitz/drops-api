@@ -23,7 +23,7 @@ export const Activity: ListConfig<Lists.Activity.TypeInfo<any>, any> = list({
   },
   fields: {
     name: text({
-      defaultValue: "...",
+      defaultValue: " ",
       db: { map: "my_text", nativeType: "VarChar(40)" },
       validation: { isRequired: true },
       isIndexed: "unique",
@@ -35,7 +35,7 @@ export const Activity: ListConfig<Lists.Activity.TypeInfo<any>, any> = list({
       isIndexed: "unique",
     }),
     unitOfMeasure: text({
-      defaultValue: "...",
+      defaultValue: " ",
       db: { map: "text", nativeType: "VarChar(40)" },
       isIndexed: "unique",
       ui: { displayMode: "textarea" },
