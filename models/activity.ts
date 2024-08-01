@@ -51,5 +51,6 @@ export const Activity: ListConfig<Lists.Activity.TypeInfo<any>, any> = list({
       db: { map: "my_end_timestamp", updatedAt: true },
       isIndexed: "unique",
     }),
+    user: relationship({ ref: "User.activity", many: true }),
   },
 });
