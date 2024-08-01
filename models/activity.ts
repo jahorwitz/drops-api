@@ -22,23 +22,14 @@ export const Activity: ListConfig<Lists.Activity.TypeInfo<any>, any> = list({
     },
   },
   fields: {
-    name: text({
-      defaultValue: " ",
-      db: { map: "my_text", nativeType: "VarChar(40)" },
-      validation: { isRequired: true },
-      isIndexed: "unique",
-      ui: { displayMode: "textarea" },
-    }),
+    name: text({ validation: { isRequired: true } }),
     amount: integer({
       defaultValue: 0,
-      db: { map: "my_integer" },
-      isIndexed: "unique",
+      validation: { isRequired: true },
     }),
     unitOfMeasure: text({
       defaultValue: " ",
-      db: { map: "text", nativeType: "VarChar(40)" },
-      isIndexed: "unique",
-      ui: { displayMode: "textarea" },
+      validation: { isRequired: true },
     }),
     startTime: timestamp({
       defaultValue: "2020-10-05T00:00:00-07:00",
