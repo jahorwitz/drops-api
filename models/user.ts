@@ -1,7 +1,7 @@
 import { list } from "@keystone-6/core";
 import type { ListConfig } from "@keystone-6/core";
 import type { Lists } from ".keystone/types";
-import { checkbox, text, password, timestamp } from "@keystone-6/core/fields";
+import { checkbox, text, password, timestamp, relationship } from "@keystone-6/core/fields";
 
 export const User: ListConfig<Lists.User.TypeInfo<any>, any> = list({
   access: {
@@ -33,5 +33,6 @@ export const User: ListConfig<Lists.User.TypeInfo<any>, any> = list({
     lastLoginDate: timestamp({
       defaultValue: { kind: "now" },
     }),
+    activity: relationship({ ref: "Activity.user", many: true }),
   },
 });

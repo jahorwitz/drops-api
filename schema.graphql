@@ -8,15 +8,14 @@ type Activity {
   unitOfMeasure: String
   startTime: DateTime
   endTime: DateTime
+  user(where: UserWhereInput! = {}, orderBy: [UserOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: UserWhereUniqueInput): [User!]
+  userCount(where: UserWhereInput! = {}): Int
 }
 
 scalar DateTime @specifiedBy(url: "https://datatracker.ietf.org/doc/html/rfc3339#section-5.6")
 
 input ActivityWhereUniqueInput {
   id: ID
-  name: String
-  amount: Int
-  unitOfMeasure: String
   startTime: DateTime
   endTime: DateTime
 }
@@ -27,10 +26,11 @@ input ActivityWhereInput {
   NOT: [ActivityWhereInput!]
   id: IDFilter
   name: StringFilter
-  amount: IntNullableFilter
+  amount: IntFilter
   unitOfMeasure: StringFilter
   startTime: DateTimeFilter
   endTime: DateTimeNullableFilter
+  user: UserManyRelationFilter
 }
 
 input IDFilter {
@@ -72,7 +72,7 @@ input NestedStringFilter {
   not: NestedStringFilter
 }
 
-input IntNullableFilter {
+input IntFilter {
   equals: Int
   in: [Int!]
   notIn: [Int!]
@@ -80,7 +80,7 @@ input IntNullableFilter {
   lte: Int
   gt: Int
   gte: Int
-  not: IntNullableFilter
+  not: IntFilter
 }
 
 input DateTimeFilter {
@@ -105,6 +105,12 @@ input DateTimeNullableFilter {
   not: DateTimeNullableFilter
 }
 
+input UserManyRelationFilter {
+  every: UserWhereInput
+  some: UserWhereInput
+  none: UserWhereInput
+}
+
 input ActivityOrderByInput {
   id: OrderDirection
   name: OrderDirection
@@ -125,6 +131,14 @@ input ActivityUpdateInput {
   unitOfMeasure: String
   startTime: DateTime
   endTime: DateTime
+  user: UserRelateToManyForUpdateInput
+}
+
+input UserRelateToManyForUpdateInput {
+  disconnect: [UserWhereUniqueInput!]
+  set: [UserWhereUniqueInput!]
+  create: [UserCreateInput!]
+  connect: [UserWhereUniqueInput!]
 }
 
 input ActivityUpdateArgs {
@@ -138,6 +152,12 @@ input ActivityCreateInput {
   unitOfMeasure: String
   startTime: DateTime
   endTime: DateTime
+  user: UserRelateToManyForCreateInput
+}
+
+input UserRelateToManyForCreateInput {
+  create: [UserCreateInput!]
+  connect: [UserWhereUniqueInput!]
 }
 
 type User {
@@ -148,6 +168,8 @@ type User {
   isAdmin: Boolean
   createdAt: DateTime
   lastLoginDate: DateTime
+  activity(where: ActivityWhereInput! = {}, orderBy: [ActivityOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: ActivityWhereUniqueInput): [Activity!]
+  activityCount(where: ActivityWhereInput! = {}): Int
 }
 
 type PasswordState {
@@ -169,11 +191,18 @@ input UserWhereInput {
   isAdmin: BooleanFilter
   createdAt: DateTimeNullableFilter
   lastLoginDate: DateTimeNullableFilter
+  activity: ActivityManyRelationFilter
 }
 
 input BooleanFilter {
   equals: Boolean
   not: BooleanFilter
+}
+
+input ActivityManyRelationFilter {
+  every: ActivityWhereInput
+  some: ActivityWhereInput
+  none: ActivityWhereInput
 }
 
 input UserOrderByInput {
@@ -192,6 +221,14 @@ input UserUpdateInput {
   isAdmin: Boolean
   createdAt: DateTime
   lastLoginDate: DateTime
+  activity: ActivityRelateToManyForUpdateInput
+}
+
+input ActivityRelateToManyForUpdateInput {
+  disconnect: [ActivityWhereUniqueInput!]
+  set: [ActivityWhereUniqueInput!]
+  create: [ActivityCreateInput!]
+  connect: [ActivityWhereUniqueInput!]
 }
 
 input UserUpdateArgs {
@@ -206,6 +243,12 @@ input UserCreateInput {
   isAdmin: Boolean
   createdAt: DateTime
   lastLoginDate: DateTime
+  activity: ActivityRelateToManyForCreateInput
+}
+
+input ActivityRelateToManyForCreateInput {
+  create: [ActivityCreateInput!]
+  connect: [ActivityWhereUniqueInput!]
 }
 
 """
