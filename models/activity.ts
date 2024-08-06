@@ -25,11 +25,9 @@ export const Activity: ListConfig<Lists.Activity.TypeInfo<any>, any> = list({
     name: text({ validation: { isRequired: true } }),
     amount: integer({
       defaultValue: 0,
-      validation: { isRequired: true },
     }),
     unitOfMeasure: text({
       defaultValue: " ",
-      validation: { isRequired: true },
     }),
     startTime: timestamp({
       defaultValue: "2020-10-05T00:00:00-07:00",
