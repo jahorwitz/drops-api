@@ -43,7 +43,7 @@ export const Activity: ListConfig<Lists.Activity.TypeInfo<any>, any> = list({
     user: relationship({
       ref: "User.activity",
       many: false,
-      db: { foreignKey: { map: "foreign_id" } },
+      db: { foreignKey: { map: "userid" } },
     }),
   },
 });
