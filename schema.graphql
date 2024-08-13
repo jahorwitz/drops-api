@@ -8,16 +8,13 @@ type Activity {
   unitOfMeasure: String
   startTime: DateTime
   endTime: DateTime
-  user(where: UserWhereInput! = {}, orderBy: [UserOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: UserWhereUniqueInput): [User!]
-  userCount(where: UserWhereInput! = {}): Int
+  user: User
 }
 
 scalar DateTime @specifiedBy(url: "https://datatracker.ietf.org/doc/html/rfc3339#section-5.6")
 
 input ActivityWhereUniqueInput {
   id: ID
-  startTime: DateTime
-  endTime: DateTime
 }
 
 input ActivityWhereInput {
@@ -26,11 +23,11 @@ input ActivityWhereInput {
   NOT: [ActivityWhereInput!]
   id: IDFilter
   name: StringFilter
-  amount: IntFilter
+  amount: IntNullableFilter
   unitOfMeasure: StringFilter
   startTime: DateTimeFilter
   endTime: DateTimeNullableFilter
-  user: UserManyRelationFilter
+  user: UserWhereInput
 }
 
 input IDFilter {
@@ -72,7 +69,7 @@ input NestedStringFilter {
   not: NestedStringFilter
 }
 
-input IntFilter {
+input IntNullableFilter {
   equals: Int
   in: [Int!]
   notIn: [Int!]
@@ -80,7 +77,7 @@ input IntFilter {
   lte: Int
   gt: Int
   gte: Int
-  not: IntFilter
+  not: IntNullableFilter
 }
 
 input DateTimeFilter {
@@ -105,12 +102,6 @@ input DateTimeNullableFilter {
   not: DateTimeNullableFilter
 }
 
-input UserManyRelationFilter {
-  every: UserWhereInput
-  some: UserWhereInput
-  none: UserWhereInput
-}
-
 input ActivityOrderByInput {
   id: OrderDirection
   name: OrderDirection
@@ -131,14 +122,13 @@ input ActivityUpdateInput {
   unitOfMeasure: String
   startTime: DateTime
   endTime: DateTime
-  user: UserRelateToManyForUpdateInput
+  user: UserRelateToOneForUpdateInput
 }
 
-input UserRelateToManyForUpdateInput {
-  disconnect: [UserWhereUniqueInput!]
-  set: [UserWhereUniqueInput!]
-  create: [UserCreateInput!]
-  connect: [UserWhereUniqueInput!]
+input UserRelateToOneForUpdateInput {
+  create: UserCreateInput
+  connect: UserWhereUniqueInput
+  disconnect: Boolean
 }
 
 input ActivityUpdateArgs {
@@ -152,12 +142,12 @@ input ActivityCreateInput {
   unitOfMeasure: String
   startTime: DateTime
   endTime: DateTime
-  user: UserRelateToManyForCreateInput
+  user: UserRelateToOneForCreateInput
 }
 
-input UserRelateToManyForCreateInput {
-  create: [UserCreateInput!]
-  connect: [UserWhereUniqueInput!]
+input UserRelateToOneForCreateInput {
+  create: UserCreateInput
+  connect: UserWhereUniqueInput
 }
 
 type User {

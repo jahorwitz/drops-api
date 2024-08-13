@@ -16,7 +16,18 @@ export const Activity: ListConfig<Lists.Activity.TypeInfo<any>, any> = list({
       update: ({ session }) => !!session,
       delete: ({ session }) => !!session,
     },
+    filter: {
+      query: ({ session }) => ({
+        user: {
+          id: {
+            equals: session.data.id,
+          },
+        },
+      }),
+    },
     item: {
+      create: ({ session, inputData }) =>
+        inputData.user?.connect?.id === session.data.id,
       update: ({ session, item }) => item.userId === session.data.id,
       delete: ({ session, item }) => item.userId === session.data.id,
     },
@@ -27,18 +38,16 @@ export const Activity: ListConfig<Lists.Activity.TypeInfo<any>, any> = list({
       defaultValue: 0,
     }),
     unitOfMeasure: text({
-      defaultValue: " ",
+      defaultValue: "",
     }),
     startTime: timestamp({
       defaultValue: "2020-10-05T00:00:00-07:00",
       db: { map: "my_start_timestamp", updatedAt: true },
       validation: { isRequired: true },
-      isIndexed: "unique",
     }),
     endTime: timestamp({
       defaultValue: "2020-10-05T00:00:00-07:00",
       db: { map: "my_end_timestamp", updatedAt: true },
-      isIndexed: "unique",
     }),
     user: relationship({
       ref: "User.activity",

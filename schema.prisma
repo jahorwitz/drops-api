@@ -14,11 +14,14 @@ generator client {
 model Activity {
   id            String    @id @default(uuid())
   name          String    @default("")
-  amount        Int       @default(0)
-  unitOfMeasure String    @default(" ")
-  startTime     DateTime  @unique @default("2020-10-05T00:00:00-07:00") @updatedAt @map("my_start_timestamp")
-  endTime       DateTime? @unique @default("2020-10-05T00:00:00-07:00") @updatedAt @map("my_end_timestamp")
-  user          User[]    @relation("Activity_user")
+  amount        Int?      @default(0)
+  unitOfMeasure String    @default("")
+  startTime     DateTime  @default("2020-10-05T00:00:00-07:00") @updatedAt @map("my_start_timestamp")
+  endTime       DateTime? @default("2020-10-05T00:00:00-07:00") @updatedAt @map("my_end_timestamp")
+  user          User?     @relation("Activity_user", fields: [userId], references: [id])
+  userId        String?   @map("userid")
+
+  @@index([userId])
 }
 
 model User {
