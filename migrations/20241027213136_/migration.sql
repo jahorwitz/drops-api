@@ -14,6 +14,22 @@ CREATE TABLE `Goal` (
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
+CREATE TABLE `Notification` (
+    `id` VARCHAR(191) NOT NULL,
+    `my_select` ENUM('Activity', 'Diet', 'Glucose', 'Medicaton', 'other') NOT NULL,
+    `description` VARCHAR(191) NOT NULL DEFAULT '',
+    `notificationTime` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+    `createdAt` DATETIME(3) NULL DEFAULT CURRENT_TIMESTAMP(3),
+    `status` VARCHAR(191) NULL DEFAULT 'new',
+    `archivedAt` DATETIME(3) NULL DEFAULT CURRENT_TIMESTAMP(3),
+    `user` VARCHAR(191) NULL,
+
+    INDEX `Notification_my_select_idx`(`my_select`),
+    INDEX `Notification_user_idx`(`user`),
+    PRIMARY KEY (`id`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+-- CreateTable
 CREATE TABLE `User` (
     `id` VARCHAR(191) NOT NULL,
     `name` VARCHAR(191) NOT NULL DEFAULT '',
@@ -33,3 +49,6 @@ CREATE TABLE `User` (
 
 -- AddForeignKey
 ALTER TABLE `Goal` ADD CONSTRAINT `Goal_user_fkey` FOREIGN KEY (`user`) REFERENCES `User`(`id`) ON DELETE SET NULL ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `Notification` ADD CONSTRAINT `Notification_user_fkey` FOREIGN KEY (`user`) REFERENCES `User`(`id`) ON DELETE SET NULL ON UPDATE CASCADE;
