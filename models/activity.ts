@@ -50,7 +50,7 @@ export const Activity: ListConfig<Lists.Activity.TypeInfo<any>, any> = list({
       db: { map: "my_end_timestamp", updatedAt: true },
     }),
     user: relationship({
-      ref: "User.activity",
+      ref: "User.activities",
       many: false,
       db: { foreignKey: { map: "userid" } },
     }),

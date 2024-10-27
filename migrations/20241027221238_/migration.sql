@@ -28,6 +28,19 @@ CREATE TABLE `Goal` (
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
+CREATE TABLE `Medication` (
+    `id` VARCHAR(191) NOT NULL,
+    `name` VARCHAR(191) NOT NULL DEFAULT '',
+    `amount` INTEGER NOT NULL,
+    `unitOfMeasure` VARCHAR(191) NOT NULL DEFAULT '',
+    `time` VARCHAR(191) NOT NULL DEFAULT '',
+    `user` VARCHAR(191) NULL,
+
+    INDEX `Medication_user_idx`(`user`),
+    PRIMARY KEY (`id`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+-- CreateTable
 CREATE TABLE `Notification` (
     `id` VARCHAR(191) NOT NULL,
     `my_select` ENUM('Activity', 'Diet', 'Glucose', 'Medicaton', 'other') NOT NULL,
@@ -66,6 +79,9 @@ ALTER TABLE `Activity` ADD CONSTRAINT `Activity_userid_fkey` FOREIGN KEY (`useri
 
 -- AddForeignKey
 ALTER TABLE `Goal` ADD CONSTRAINT `Goal_user_fkey` FOREIGN KEY (`user`) REFERENCES `User`(`id`) ON DELETE SET NULL ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `Medication` ADD CONSTRAINT `Medication_user_fkey` FOREIGN KEY (`user`) REFERENCES `User`(`id`) ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE `Notification` ADD CONSTRAINT `Notification_user_fkey` FOREIGN KEY (`user`) REFERENCES `User`(`id`) ON DELETE SET NULL ON UPDATE CASCADE;

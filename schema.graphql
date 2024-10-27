@@ -240,6 +240,60 @@ input GoalCreateInput {
   user: UserRelateToOneForCreateInput
 }
 
+type Medication {
+  id: ID!
+  name: String
+  amount: Int
+  unitOfMeasure: String
+  time: String
+  user: User
+}
+
+input MedicationWhereUniqueInput {
+  id: ID
+}
+
+input MedicationWhereInput {
+  AND: [MedicationWhereInput!]
+  OR: [MedicationWhereInput!]
+  NOT: [MedicationWhereInput!]
+  id: IDFilter
+  name: StringFilter
+  amount: IntFilter
+  unitOfMeasure: StringFilter
+  time: StringFilter
+  user: UserWhereInput
+}
+
+input MedicationOrderByInput {
+  id: OrderDirection
+  name: OrderDirection
+  amount: OrderDirection
+  unitOfMeasure: OrderDirection
+  time: OrderDirection
+}
+
+input MedicationUpdateInput {
+  name: String
+  amount: Int
+  unitOfMeasure: String
+  time: String
+  user: UserRelateToOneForUpdateInput
+}
+
+input MedicationUpdateArgs {
+  where: MedicationWhereUniqueInput!
+  data: MedicationUpdateInput!
+}
+
+input MedicationCreateInput {
+  name: String
+  amount: Int
+  unitOfMeasure: String
+  time: String
+  user: UserRelateToOneForCreateInput
+}
+
 type Notification {
   id: ID!
   type: NotificationTypeType
@@ -349,8 +403,10 @@ type User {
   goalsCount(where: GoalWhereInput! = {}): Int
   notifications(where: NotificationWhereInput! = {}, orderBy: [NotificationOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: NotificationWhereUniqueInput): [Notification!]
   notificationsCount(where: NotificationWhereInput! = {}): Int
-  activity(where: ActivityWhereInput! = {}, orderBy: [ActivityOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: ActivityWhereUniqueInput): [Activity!]
-  activityCount(where: ActivityWhereInput! = {}): Int
+  activities(where: ActivityWhereInput! = {}, orderBy: [ActivityOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: ActivityWhereUniqueInput): [Activity!]
+  activitiesCount(where: ActivityWhereInput! = {}): Int
+  medications(where: MedicationWhereInput! = {}, orderBy: [MedicationOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: MedicationWhereUniqueInput): [Medication!]
+  medicationsCount(where: MedicationWhereInput! = {}): Int
 }
 
 type PasswordState {
@@ -383,7 +439,8 @@ input UserWhereInput {
   sex: StringNullableFilter
   goals: GoalManyRelationFilter
   notifications: NotificationManyRelationFilter
-  activity: ActivityManyRelationFilter
+  activities: ActivityManyRelationFilter
+  medications: MedicationManyRelationFilter
 }
 
 input GoalManyRelationFilter {
@@ -402,6 +459,12 @@ input ActivityManyRelationFilter {
   every: ActivityWhereInput
   some: ActivityWhereInput
   none: ActivityWhereInput
+}
+
+input MedicationManyRelationFilter {
+  every: MedicationWhereInput
+  some: MedicationWhereInput
+  none: MedicationWhereInput
 }
 
 input UserOrderByInput {
@@ -429,7 +492,8 @@ input UserUpdateInput {
   diabetesType: [UserDiabetesTypeType!]
   goals: GoalRelateToManyForUpdateInput
   notifications: NotificationRelateToManyForUpdateInput
-  activity: ActivityRelateToManyForUpdateInput
+  activities: ActivityRelateToManyForUpdateInput
+  medications: MedicationRelateToManyForUpdateInput
 }
 
 input GoalRelateToManyForUpdateInput {
@@ -453,6 +517,13 @@ input ActivityRelateToManyForUpdateInput {
   connect: [ActivityWhereUniqueInput!]
 }
 
+input MedicationRelateToManyForUpdateInput {
+  disconnect: [MedicationWhereUniqueInput!]
+  set: [MedicationWhereUniqueInput!]
+  create: [MedicationCreateInput!]
+  connect: [MedicationWhereUniqueInput!]
+}
+
 input UserUpdateArgs {
   where: UserWhereUniqueInput!
   data: UserUpdateInput!
@@ -471,7 +542,8 @@ input UserCreateInput {
   diabetesType: [UserDiabetesTypeType!]
   goals: GoalRelateToManyForCreateInput
   notifications: NotificationRelateToManyForCreateInput
-  activity: ActivityRelateToManyForCreateInput
+  activities: ActivityRelateToManyForCreateInput
+  medications: MedicationRelateToManyForCreateInput
 }
 
 input GoalRelateToManyForCreateInput {
@@ -487,6 +559,11 @@ input NotificationRelateToManyForCreateInput {
 input ActivityRelateToManyForCreateInput {
   create: [ActivityCreateInput!]
   connect: [ActivityWhereUniqueInput!]
+}
+
+input MedicationRelateToManyForCreateInput {
+  create: [MedicationCreateInput!]
+  connect: [MedicationWhereUniqueInput!]
 }
 
 """
@@ -507,6 +584,12 @@ type Mutation {
   updateGoals(data: [GoalUpdateArgs!]!): [Goal]
   deleteGoal(where: GoalWhereUniqueInput!): Goal
   deleteGoals(where: [GoalWhereUniqueInput!]!): [Goal]
+  createMedication(data: MedicationCreateInput!): Medication
+  createMedications(data: [MedicationCreateInput!]!): [Medication]
+  updateMedication(where: MedicationWhereUniqueInput!, data: MedicationUpdateInput!): Medication
+  updateMedications(data: [MedicationUpdateArgs!]!): [Medication]
+  deleteMedication(where: MedicationWhereUniqueInput!): Medication
+  deleteMedications(where: [MedicationWhereUniqueInput!]!): [Medication]
   createNotification(data: NotificationCreateInput!): Notification
   createNotifications(data: [NotificationCreateInput!]!): [Notification]
   updateNotification(where: NotificationWhereUniqueInput!, data: NotificationUpdateInput!): Notification
@@ -548,6 +631,9 @@ type Query {
   goals(where: GoalWhereInput! = {}, orderBy: [GoalOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: GoalWhereUniqueInput): [Goal!]
   goal(where: GoalWhereUniqueInput!): Goal
   goalsCount(where: GoalWhereInput! = {}): Int
+  medications(where: MedicationWhereInput! = {}, orderBy: [MedicationOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: MedicationWhereUniqueInput): [Medication!]
+  medication(where: MedicationWhereUniqueInput!): Medication
+  medicationsCount(where: MedicationWhereInput! = {}): Int
   notifications(where: NotificationWhereInput! = {}, orderBy: [NotificationOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: NotificationWhereUniqueInput): [Notification!]
   notification(where: NotificationWhereUniqueInput!): Notification
   notificationsCount(where: NotificationWhereInput! = {}): Int
