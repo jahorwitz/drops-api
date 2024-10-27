@@ -11,27 +11,87 @@ generator client {
   provider = "prisma-client-js"
 }
 
+model Activity {
+  id            String    @id @default(uuid())
+  name          String    @default("")
+  amount        Int?      @default(0)
+  unitOfMeasure String    @default("")
+  startTime     DateTime  @default(now()) @updatedAt @map("my_start_timestamp")
+  endTime       DateTime? @default(now()) @updatedAt @map("my_end_timestamp")
+  user          User?     @relation("Activity_user", fields: [userId], references: [id])
+  userId        String?   @map("userid")
+
+  @@index([userId])
+}
+
+model Goal {
+  id            String       @id @default(uuid())
+  type          GoalTypeType @map("my_select")
+  name          String       @default("")
+  amount        Int
+  unitOfMeasure String       @default("")
+  daysOfWeek    Json         @default("[]") @map("my_multiselect")
+  user          User?        @relation("Goal_user", fields: [userId], references: [id])
+  userId        String?      @map("user")
+
+  @@index([type])
+  @@index([userId])
+}
+
 model Medication {
   id            String  @id @default(uuid())
   name          String  @default("")
   amount        Int
   unitOfMeasure String  @default("")
-  hour          Int
-  minutes       Int
-  period        String  @default("")
-  createdBy     User?   @relation("Medication_createdBy", fields: [createdById], references: [id])
-  createdById   String? @map("createdBy")
+  time          String  @default("")
+  user          User?   @relation("Medication_user", fields: [userId], references: [id])
+  userId        String? @map("user")
 
-  @@index([createdById])
+  @@index([userId])
+}
+
+model Notification {
+  id               String               @id @default(uuid())
+  type             NotificationTypeType @map("my_select")
+  description      String               @default("")
+  notificationTime DateTime             @default(now())
+  createdAt        DateTime?            @default(now())
+  status           String?              @default("new")
+  archivedAt       DateTime?            @default(now())
+  user             User?                @relation("Notification_user", fields: [userId], references: [id])
+  userId           String?              @map("user")
+
+  @@index([type])
+  @@index([userId])
 }
 
 model User {
-  id                        String       @id @default(uuid())
-  name                      String       @default("")
-  email                     String       @unique @default("")
-  password                  String
-  isAdmin                   Boolean      @default(true)
-  createdAt                 DateTime?    @default(now())
-  lastLoginDate             DateTime?    @default(now())
-  from_Medication_createdBy Medication[] @relation("Medication_createdBy")
+  id            String         @id @default(uuid())
+  name          String         @default("")
+  email         String         @unique @default("")
+  password      String
+  createdAt     DateTime?      @default(now())
+  lastLoginDate DateTime?      @default(now())
+  dateOfBirth   DateTime?
+  weight        Int?
+  height        Int?
+  sex           String?
+  diabetesType  Json           @default("[]")
+  goals         Goal[]         @relation("Goal_user")
+  notifications Notification[] @relation("Notification_user")
+  activities    Activity[]     @relation("Activity_user")
+  medications   Medication[]   @relation("Medication_user")
+}
+
+enum GoalTypeType {
+  Exercise
+  Diet
+}
+
+enum NotificationTypeType {
+  Activity
+  Diet
+  Glucose
+  Medicaton
+  other
 }

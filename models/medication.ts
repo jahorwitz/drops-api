@@ -7,10 +7,25 @@ export const Medication: ListConfig<Lists.Medication.TypeInfo<any>, any> = list(
   {
     access: {
       operation: {
-        query: ({ session }) => !!session?.data.isAdmin,
-        create: ({ session }) => !!session?.data.isAdmin,
-        update: ({ session }) => !!session?.data.isAdmin,
-        delete: ({ session }) => !!session?.data.isAdmin,
+        query: ({ session }) => !!session,
+        create: ({ session }) => !!session,
+        update: ({ session }) => !!session,
+        delete: ({ session }) => !!session,
+      },
+      filter: {
+        query: ({ session }) => ({
+          user: {
+            id: {
+              equals: session.data.id,
+            },
+          },
+        }),
+      },
+      item: {
+        create: ({ session, inputData }) =>
+          inputData.user?.connect?.id === session.data.id,
+        update: ({ session, item }) => item.userId === session.data.id,
+        delete: ({ session, item }) => item.userId === session.data.id,
       },
     },
     fields: {
@@ -18,27 +33,7 @@ export const Medication: ListConfig<Lists.Medication.TypeInfo<any>, any> = list(
       amount: integer({ validation: { isRequired: true } }),
       unitOfMeasure: text({ validation: { isRequired: true } }),
       time: text({ validation: { isRequired: true } }),
-      createdBy: relationship({ ref: "User", many: false }),
+      user: relationship({ ref: "User.medications", many: false }),
     },
   },
 );
-
-// dropdown select option for unitOfMeasure, if we were to use a list from an API source or something
-
-// unitOfMeasure: select({
-//   validation: { isRequired: true },
-//   type: "enum",
-//   options: [
-//     { label: "%", value: "percent" },
-//     { label: "AU", value: "au" },
-//     { label: "AU/mL", value: "au/ml" },
-//     { label: "bar", value: "bar" },
-//     { label: "BAU", value: "bau" },
-//     { label: "BAU/mL", value: "bau/ml" },
-//     { label: "bead", value: "bead" },
-//     { label: "%", value: "percent" },
-//     // etc, from list of medication dose units
-//   ],
-// }),
-
-// https://www.openmhealth.org/schemas/omh_medication-dose-unit/
