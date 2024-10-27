@@ -9,10 +9,25 @@ export const Notification: ListConfig<
 > = list({
   access: {
     operation: {
-      query: ({ session }) => !!session?.data.isAdmin,
-      create: ({ session }) => !!session?.data.isAdmin,
-      update: ({ session }) => !!session?.data.isAdmin,
-      delete: ({ session }) => !!session?.data.isAdmin,
+      query: ({ session }) => !!session,
+      create: ({ session }) => !!session,
+      update: ({ session }) => !!session,
+      delete: ({ session }) => !!session,
+    },
+    filter: {
+      query: ({ session }) => ({
+        user: {
+          id: {
+            equals: session.data.id,
+          },
+        },
+      }),
+    },
+    item: {
+      create: ({ session, inputData }) =>
+        inputData.user?.connect?.id === session.data.id,
+      update: ({ session, item }) => item.userId === session.data.id,
+      delete: ({ session, item }) => item.userId === session.data.id,
     },
   },
   fields: {
@@ -50,19 +65,6 @@ export const Notification: ListConfig<
     archivedAt: timestamp({
       defaultValue: { kind: "now" },
     }),
-    user: relationship({ ref: "User.notifications", many: true }),
-    //goal: relationship({ ref: "User.goals", many: true }),
+    user: relationship({ ref: "User.notifications", many: false }),
   },
 });
-
-// Acceptance Criteria:
-// There is a model for Notification in the backend
-// See the notifications in the UI below
-// Notifications need (these are just suggestions, feel free to make a proposal)
-// User
-// Type
-// Text
-// Status? (new, seen, dismissed, archived, etc)
-// Goal / Activity?
-// CreatedAt
-// ArchivedAt
