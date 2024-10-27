@@ -16,21 +16,69 @@ model Activity {
   name          String    @default("")
   amount        Int?      @default(0)
   unitOfMeasure String    @default("")
-  startTime     DateTime  @default("2020-10-05T00:00:00-07:00") @updatedAt @map("my_start_timestamp")
-  endTime       DateTime? @default("2020-10-05T00:00:00-07:00") @updatedAt @map("my_end_timestamp")
+  startTime     DateTime  @default(now()) @updatedAt @map("my_start_timestamp")
+  endTime       DateTime? @default(now()) @updatedAt @map("my_end_timestamp")
   user          User?     @relation("Activity_user", fields: [userId], references: [id])
   userId        String?   @map("userid")
 
   @@index([userId])
 }
 
+model Goal {
+  id            String       @id @default(uuid())
+  type          GoalTypeType @map("my_select")
+  name          String       @default("")
+  amount        Int
+  unitOfMeasure String       @default("")
+  daysOfWeek    Json         @default("[]") @map("my_multiselect")
+  user          User?        @relation("Goal_user", fields: [userId], references: [id])
+  userId        String?      @map("user")
+
+  @@index([type])
+  @@index([userId])
+}
+
+model Notification {
+  id               String               @id @default(uuid())
+  type             NotificationTypeType @map("my_select")
+  description      String               @default("")
+  notificationTime DateTime             @default(now())
+  createdAt        DateTime?            @default(now())
+  status           String?              @default("new")
+  archivedAt       DateTime?            @default(now())
+  user             User?                @relation("Notification_user", fields: [userId], references: [id])
+  userId           String?              @map("user")
+
+  @@index([type])
+  @@index([userId])
+}
+
 model User {
-  id            String     @id @default(uuid())
-  name          String     @default("")
-  email         String     @unique @default("")
+  id            String         @id @default(uuid())
+  name          String         @default("")
+  email         String         @unique @default("")
   password      String
-  isAdmin       Boolean    @default(true)
-  createdAt     DateTime?  @default(now())
-  lastLoginDate DateTime?  @default(now())
-  activity      Activity[] @relation("Activity_user")
+  createdAt     DateTime?      @default(now())
+  lastLoginDate DateTime?      @default(now())
+  dateOfBirth   DateTime?
+  weight        Int?
+  height        Int?
+  sex           String?
+  diabetesType  Json           @default("[]")
+  goals         Goal[]         @relation("Goal_user")
+  notifications Notification[] @relation("Notification_user")
+  activity      Activity[]     @relation("Activity_user")
+}
+
+enum GoalTypeType {
+  Exercise
+  Diet
+}
+
+enum NotificationTypeType {
+  Activity
+  Diet
+  Glucose
+  Medicaton
+  other
 }

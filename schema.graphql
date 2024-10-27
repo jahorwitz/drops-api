@@ -150,20 +150,217 @@ input UserRelateToOneForCreateInput {
   connect: UserWhereUniqueInput
 }
 
+type Goal {
+  id: ID!
+  type: GoalTypeType
+  name: String
+  amount: Int
+  unitOfMeasure: String
+  daysOfWeek: [GoalDaysOfWeekType!]
+  user: User
+}
+
+enum GoalTypeType {
+  Exercise
+  Diet
+}
+
+enum GoalDaysOfWeekType {
+  Sunday
+  Monday
+  Tuesday
+  Wednesday
+  Thursday
+  Friday
+  Saturday
+}
+
+input GoalWhereUniqueInput {
+  id: ID
+}
+
+input GoalWhereInput {
+  AND: [GoalWhereInput!]
+  OR: [GoalWhereInput!]
+  NOT: [GoalWhereInput!]
+  id: IDFilter
+  type: GoalTypeTypeNullableFilter
+  name: StringFilter
+  amount: IntFilter
+  unitOfMeasure: StringFilter
+  user: UserWhereInput
+}
+
+input GoalTypeTypeNullableFilter {
+  equals: GoalTypeType
+  in: [GoalTypeType!]
+  notIn: [GoalTypeType!]
+  not: GoalTypeTypeNullableFilter
+}
+
+input IntFilter {
+  equals: Int
+  in: [Int!]
+  notIn: [Int!]
+  lt: Int
+  lte: Int
+  gt: Int
+  gte: Int
+  not: IntFilter
+}
+
+input GoalOrderByInput {
+  id: OrderDirection
+  type: OrderDirection
+  name: OrderDirection
+  amount: OrderDirection
+  unitOfMeasure: OrderDirection
+}
+
+input GoalUpdateInput {
+  type: GoalTypeType
+  name: String
+  amount: Int
+  unitOfMeasure: String
+  daysOfWeek: [GoalDaysOfWeekType!]
+  user: UserRelateToOneForUpdateInput
+}
+
+input GoalUpdateArgs {
+  where: GoalWhereUniqueInput!
+  data: GoalUpdateInput!
+}
+
+input GoalCreateInput {
+  type: GoalTypeType
+  name: String
+  amount: Int
+  unitOfMeasure: String
+  daysOfWeek: [GoalDaysOfWeekType!]
+  user: UserRelateToOneForCreateInput
+}
+
+type Notification {
+  id: ID!
+  type: NotificationTypeType
+  description: String
+  notificationTime: DateTime
+  createdAt: DateTime
+  status: String
+  archivedAt: DateTime
+  user: User
+}
+
+enum NotificationTypeType {
+  Activity
+  Diet
+  Glucose
+  Medicaton
+  other
+}
+
+input NotificationWhereUniqueInput {
+  id: ID
+}
+
+input NotificationWhereInput {
+  AND: [NotificationWhereInput!]
+  OR: [NotificationWhereInput!]
+  NOT: [NotificationWhereInput!]
+  id: IDFilter
+  type: NotificationTypeTypeNullableFilter
+  description: StringFilter
+  notificationTime: DateTimeFilter
+  createdAt: DateTimeNullableFilter
+  status: StringNullableFilter
+  archivedAt: DateTimeNullableFilter
+  user: UserWhereInput
+}
+
+input NotificationTypeTypeNullableFilter {
+  equals: NotificationTypeType
+  in: [NotificationTypeType!]
+  notIn: [NotificationTypeType!]
+  not: NotificationTypeTypeNullableFilter
+}
+
+input StringNullableFilter {
+  equals: String
+  in: [String!]
+  notIn: [String!]
+  lt: String
+  lte: String
+  gt: String
+  gte: String
+  contains: String
+  startsWith: String
+  endsWith: String
+  not: StringNullableFilter
+}
+
+input NotificationOrderByInput {
+  id: OrderDirection
+  type: OrderDirection
+  description: OrderDirection
+  notificationTime: OrderDirection
+  createdAt: OrderDirection
+  status: OrderDirection
+  archivedAt: OrderDirection
+}
+
+input NotificationUpdateInput {
+  type: NotificationTypeType
+  description: String
+  notificationTime: DateTime
+  createdAt: DateTime
+  status: String
+  archivedAt: DateTime
+  user: UserRelateToOneForUpdateInput
+}
+
+input NotificationUpdateArgs {
+  where: NotificationWhereUniqueInput!
+  data: NotificationUpdateInput!
+}
+
+input NotificationCreateInput {
+  type: NotificationTypeType
+  description: String
+  notificationTime: DateTime
+  createdAt: DateTime
+  status: String
+  archivedAt: DateTime
+  user: UserRelateToOneForCreateInput
+}
+
 type User {
   id: ID!
   name: String
   email: String
   password: PasswordState
-  isAdmin: Boolean
   createdAt: DateTime
   lastLoginDate: DateTime
+  dateOfBirth: DateTime
+  weight: Int
+  height: Int
+  sex: String
+  diabetesType: [UserDiabetesTypeType!]
+  goals(where: GoalWhereInput! = {}, orderBy: [GoalOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: GoalWhereUniqueInput): [Goal!]
+  goalsCount(where: GoalWhereInput! = {}): Int
+  notifications(where: NotificationWhereInput! = {}, orderBy: [NotificationOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: NotificationWhereUniqueInput): [Notification!]
+  notificationsCount(where: NotificationWhereInput! = {}): Int
   activity(where: ActivityWhereInput! = {}, orderBy: [ActivityOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: ActivityWhereUniqueInput): [Activity!]
   activityCount(where: ActivityWhereInput! = {}): Int
 }
 
 type PasswordState {
   isSet: Boolean!
+}
+
+enum UserDiabetesTypeType {
+  type1
+  type2
+  gestational
 }
 
 input UserWhereUniqueInput {
@@ -178,15 +375,27 @@ input UserWhereInput {
   id: IDFilter
   name: StringFilter
   email: StringFilter
-  isAdmin: BooleanFilter
   createdAt: DateTimeNullableFilter
   lastLoginDate: DateTimeNullableFilter
+  dateOfBirth: DateTimeNullableFilter
+  weight: IntNullableFilter
+  height: IntNullableFilter
+  sex: StringNullableFilter
+  goals: GoalManyRelationFilter
+  notifications: NotificationManyRelationFilter
   activity: ActivityManyRelationFilter
 }
 
-input BooleanFilter {
-  equals: Boolean
-  not: BooleanFilter
+input GoalManyRelationFilter {
+  every: GoalWhereInput
+  some: GoalWhereInput
+  none: GoalWhereInput
+}
+
+input NotificationManyRelationFilter {
+  every: NotificationWhereInput
+  some: NotificationWhereInput
+  none: NotificationWhereInput
 }
 
 input ActivityManyRelationFilter {
@@ -199,19 +408,42 @@ input UserOrderByInput {
   id: OrderDirection
   name: OrderDirection
   email: OrderDirection
-  isAdmin: OrderDirection
   createdAt: OrderDirection
   lastLoginDate: OrderDirection
+  dateOfBirth: OrderDirection
+  weight: OrderDirection
+  height: OrderDirection
+  sex: OrderDirection
 }
 
 input UserUpdateInput {
   name: String
   email: String
   password: String
-  isAdmin: Boolean
   createdAt: DateTime
   lastLoginDate: DateTime
+  dateOfBirth: DateTime
+  weight: Int
+  height: Int
+  sex: String
+  diabetesType: [UserDiabetesTypeType!]
+  goals: GoalRelateToManyForUpdateInput
+  notifications: NotificationRelateToManyForUpdateInput
   activity: ActivityRelateToManyForUpdateInput
+}
+
+input GoalRelateToManyForUpdateInput {
+  disconnect: [GoalWhereUniqueInput!]
+  set: [GoalWhereUniqueInput!]
+  create: [GoalCreateInput!]
+  connect: [GoalWhereUniqueInput!]
+}
+
+input NotificationRelateToManyForUpdateInput {
+  disconnect: [NotificationWhereUniqueInput!]
+  set: [NotificationWhereUniqueInput!]
+  create: [NotificationCreateInput!]
+  connect: [NotificationWhereUniqueInput!]
 }
 
 input ActivityRelateToManyForUpdateInput {
@@ -230,10 +462,26 @@ input UserCreateInput {
   name: String
   email: String
   password: String
-  isAdmin: Boolean
   createdAt: DateTime
   lastLoginDate: DateTime
+  dateOfBirth: DateTime
+  weight: Int
+  height: Int
+  sex: String
+  diabetesType: [UserDiabetesTypeType!]
+  goals: GoalRelateToManyForCreateInput
+  notifications: NotificationRelateToManyForCreateInput
   activity: ActivityRelateToManyForCreateInput
+}
+
+input GoalRelateToManyForCreateInput {
+  create: [GoalCreateInput!]
+  connect: [GoalWhereUniqueInput!]
+}
+
+input NotificationRelateToManyForCreateInput {
+  create: [NotificationCreateInput!]
+  connect: [NotificationWhereUniqueInput!]
 }
 
 input ActivityRelateToManyForCreateInput {
@@ -253,6 +501,18 @@ type Mutation {
   updateActivities(data: [ActivityUpdateArgs!]!): [Activity]
   deleteActivity(where: ActivityWhereUniqueInput!): Activity
   deleteActivities(where: [ActivityWhereUniqueInput!]!): [Activity]
+  createGoal(data: GoalCreateInput!): Goal
+  createGoals(data: [GoalCreateInput!]!): [Goal]
+  updateGoal(where: GoalWhereUniqueInput!, data: GoalUpdateInput!): Goal
+  updateGoals(data: [GoalUpdateArgs!]!): [Goal]
+  deleteGoal(where: GoalWhereUniqueInput!): Goal
+  deleteGoals(where: [GoalWhereUniqueInput!]!): [Goal]
+  createNotification(data: NotificationCreateInput!): Notification
+  createNotifications(data: [NotificationCreateInput!]!): [Notification]
+  updateNotification(where: NotificationWhereUniqueInput!, data: NotificationUpdateInput!): Notification
+  updateNotifications(data: [NotificationUpdateArgs!]!): [Notification]
+  deleteNotification(where: NotificationWhereUniqueInput!): Notification
+  deleteNotifications(where: [NotificationWhereUniqueInput!]!): [Notification]
   createUser(data: UserCreateInput!): User
   createUsers(data: [UserCreateInput!]!): [User]
   updateUser(where: UserWhereUniqueInput!, data: UserUpdateInput!): User
@@ -285,6 +545,12 @@ type Query {
   activities(where: ActivityWhereInput! = {}, orderBy: [ActivityOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: ActivityWhereUniqueInput): [Activity!]
   activity(where: ActivityWhereUniqueInput!): Activity
   activitiesCount(where: ActivityWhereInput! = {}): Int
+  goals(where: GoalWhereInput! = {}, orderBy: [GoalOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: GoalWhereUniqueInput): [Goal!]
+  goal(where: GoalWhereUniqueInput!): Goal
+  goalsCount(where: GoalWhereInput! = {}): Int
+  notifications(where: NotificationWhereInput! = {}, orderBy: [NotificationOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: NotificationWhereUniqueInput): [Notification!]
+  notification(where: NotificationWhereUniqueInput!): Notification
+  notificationsCount(where: NotificationWhereInput! = {}): Int
   users(where: UserWhereInput! = {}, orderBy: [UserOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: UserWhereUniqueInput): [User!]
   user(where: UserWhereUniqueInput!): User
   usersCount(where: UserWhereInput! = {}): Int

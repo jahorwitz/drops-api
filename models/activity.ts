@@ -41,12 +41,12 @@ export const Activity: ListConfig<Lists.Activity.TypeInfo<any>, any> = list({
       defaultValue: "",
     }),
     startTime: timestamp({
-      defaultValue: "2020-10-05T00:00:00-07:00",
+      defaultValue: { kind: "now" },
       db: { map: "my_start_timestamp", updatedAt: true },
       validation: { isRequired: true },
     }),
     endTime: timestamp({
-      defaultValue: "2020-10-05T00:00:00-07:00",
+      defaultValue: { kind: "now" },
       db: { map: "my_end_timestamp", updatedAt: true },
     }),
     user: relationship({
