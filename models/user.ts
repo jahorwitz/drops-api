@@ -81,5 +81,6 @@ export const User: ListConfig<Lists.User.TypeInfo<any>, any> = list({
     }),
     goals: relationship({ ref: "Goal.user", many: true }),
     notifications: relationship({ ref: "Notification.user", many: true }),
+    activity: relationship({ ref: "Activity.user", many: true }),
   },
 });
