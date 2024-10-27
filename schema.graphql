@@ -8,8 +8,7 @@ type Goal {
   amount: Int
   unitOfMeasure: String
   daysOfWeek: [GoalDaysOfWeekType!]
-  user(where: UserWhereInput! = {}, orderBy: [UserOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: UserWhereUniqueInput): [User!]
-  userCount(where: UserWhereInput! = {}): Int
+  user: User
 }
 
 enum GoalTypeType {
@@ -40,7 +39,7 @@ input GoalWhereInput {
   name: StringFilter
   amount: IntFilter
   unitOfMeasure: StringFilter
-  user: UserManyRelationFilter
+  user: UserWhereInput
 }
 
 input IDFilter {
@@ -100,12 +99,6 @@ input IntFilter {
   not: IntFilter
 }
 
-input UserManyRelationFilter {
-  every: UserWhereInput
-  some: UserWhereInput
-  none: UserWhereInput
-}
-
 input GoalOrderByInput {
   id: OrderDirection
   type: OrderDirection
@@ -125,14 +118,13 @@ input GoalUpdateInput {
   amount: Int
   unitOfMeasure: String
   daysOfWeek: [GoalDaysOfWeekType!]
-  user: UserRelateToManyForUpdateInput
+  user: UserRelateToOneForUpdateInput
 }
 
-input UserRelateToManyForUpdateInput {
-  disconnect: [UserWhereUniqueInput!]
-  set: [UserWhereUniqueInput!]
-  create: [UserCreateInput!]
-  connect: [UserWhereUniqueInput!]
+input UserRelateToOneForUpdateInput {
+  create: UserCreateInput
+  connect: UserWhereUniqueInput
+  disconnect: Boolean
 }
 
 input GoalUpdateArgs {
@@ -146,12 +138,12 @@ input GoalCreateInput {
   amount: Int
   unitOfMeasure: String
   daysOfWeek: [GoalDaysOfWeekType!]
-  user: UserRelateToManyForCreateInput
+  user: UserRelateToOneForCreateInput
 }
 
-input UserRelateToManyForCreateInput {
-  create: [UserCreateInput!]
-  connect: [UserWhereUniqueInput!]
+input UserRelateToOneForCreateInput {
+  create: UserCreateInput
+  connect: UserWhereUniqueInput
 }
 
 type User {
@@ -159,9 +151,13 @@ type User {
   name: String
   email: String
   password: PasswordState
-  isAdmin: Boolean
   createdAt: DateTime
   lastLoginDate: DateTime
+  dateOfBirth: DateTime
+  weight: Int
+  height: Int
+  sex: String
+  diabetesType: [UserDiabetesTypeType!]
   goals(where: GoalWhereInput! = {}, orderBy: [GoalOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: GoalWhereUniqueInput): [Goal!]
   goalsCount(where: GoalWhereInput! = {}): Int
 }
@@ -171,6 +167,12 @@ type PasswordState {
 }
 
 scalar DateTime @specifiedBy(url: "https://datatracker.ietf.org/doc/html/rfc3339#section-5.6")
+
+enum UserDiabetesTypeType {
+  type1
+  type2
+  gestational
+}
 
 input UserWhereUniqueInput {
   id: ID
@@ -184,15 +186,13 @@ input UserWhereInput {
   id: IDFilter
   name: StringFilter
   email: StringFilter
-  isAdmin: BooleanFilter
   createdAt: DateTimeNullableFilter
   lastLoginDate: DateTimeNullableFilter
+  dateOfBirth: DateTimeNullableFilter
+  weight: IntNullableFilter
+  height: IntNullableFilter
+  sex: StringNullableFilter
   goals: GoalManyRelationFilter
-}
-
-input BooleanFilter {
-  equals: Boolean
-  not: BooleanFilter
 }
 
 input DateTimeNullableFilter {
@@ -206,6 +206,31 @@ input DateTimeNullableFilter {
   not: DateTimeNullableFilter
 }
 
+input IntNullableFilter {
+  equals: Int
+  in: [Int!]
+  notIn: [Int!]
+  lt: Int
+  lte: Int
+  gt: Int
+  gte: Int
+  not: IntNullableFilter
+}
+
+input StringNullableFilter {
+  equals: String
+  in: [String!]
+  notIn: [String!]
+  lt: String
+  lte: String
+  gt: String
+  gte: String
+  contains: String
+  startsWith: String
+  endsWith: String
+  not: StringNullableFilter
+}
+
 input GoalManyRelationFilter {
   every: GoalWhereInput
   some: GoalWhereInput
@@ -216,18 +241,25 @@ input UserOrderByInput {
   id: OrderDirection
   name: OrderDirection
   email: OrderDirection
-  isAdmin: OrderDirection
   createdAt: OrderDirection
   lastLoginDate: OrderDirection
+  dateOfBirth: OrderDirection
+  weight: OrderDirection
+  height: OrderDirection
+  sex: OrderDirection
 }
 
 input UserUpdateInput {
   name: String
   email: String
   password: String
-  isAdmin: Boolean
   createdAt: DateTime
   lastLoginDate: DateTime
+  dateOfBirth: DateTime
+  weight: Int
+  height: Int
+  sex: String
+  diabetesType: [UserDiabetesTypeType!]
   goals: GoalRelateToManyForUpdateInput
 }
 
@@ -247,9 +279,13 @@ input UserCreateInput {
   name: String
   email: String
   password: String
-  isAdmin: Boolean
   createdAt: DateTime
   lastLoginDate: DateTime
+  dateOfBirth: DateTime
+  weight: Int
+  height: Int
+  sex: String
+  diabetesType: [UserDiabetesTypeType!]
   goals: GoalRelateToManyForCreateInput
 }
 

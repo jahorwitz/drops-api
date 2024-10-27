@@ -11,10 +11,25 @@ import {
 export const Goal: ListConfig<Lists.Goal.TypeInfo<any>, any> = list({
   access: {
     operation: {
-      query: ({ session }) => !!session?.data.isAdmin,
-      create: ({ session }) => !!session?.data.isAdmin,
-      update: ({ session }) => !!session?.data.isAdmin,
-      delete: ({ session }) => !!session?.data.isAdmin,
+      query: ({ session }) => !!session,
+      create: ({ session }) => !!session,
+      update: ({ session }) => !!session,
+      delete: ({ session }) => !!session,
+    },
+    filter: {
+      query: ({ session }) => ({
+        user: {
+          id: {
+            equals: session.data.id,
+          },
+        },
+      }),
+    },
+    item: {
+      create: ({ session, inputData }) =>
+        inputData.user?.connect?.id === session.data.id,
+      update: ({ session, item }) => item.userId === session.data.id,
+      delete: ({ session, item }) => item.userId === session.data.id,
     },
   },
   fields: {
@@ -51,27 +66,6 @@ export const Goal: ListConfig<Lists.Goal.TypeInfo<any>, any> = list({
       ],
       db: { map: "my_multiselect" },
     }),
-    user: relationship({ ref: "User.goals", many: true }),
+    user: relationship({ ref: "User.goals", many: false }),
   },
 });
-
-//Keystone Examples Notes on authorizing certain actions
-// // Validate there is a user with a valid session
-// const isUser = ({ session }: { session: Session }) => !!session?.data.id;
-
-// // Validate the current user is an Admin
-// const isAdmin = ({ session }: { session: Session }) =>
-//   Boolean(session?.data.isAdmin);
-
-// // Validate the current user is updating themselves
-// const isPerson = ({ session, item }: { session: Session; item: PersonData }) =>
-//   session?.data.id === item.id;
-
-// // Validate the current user is an Admin, or updating themselves
-// const isAdminOrPerson = ({
-//   session,
-//   item,
-// }: {
-//   session: Session;
-//   item: PersonData;
-// }) => isAdmin({ session }) || isPerson({ session, item });
