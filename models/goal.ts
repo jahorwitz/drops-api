@@ -21,8 +21,8 @@ export const Goal: ListConfig<Lists.Goal.TypeInfo<any>, any> = list({
         user: {
           id: {
             equals: session.data.id,
-          }
-        }
+          },
+        },
       }),
     },
     item: {
