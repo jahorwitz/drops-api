@@ -11,17 +11,36 @@ generator client {
   provider = "prisma-client-js"
 }
 
+model Goal {
+  id            String       @id @default(uuid())
+  type          GoalTypeType @map("my_select")
+  name          String       @default("")
+  amount        Int
+  unitOfMeasure String       @default("")
+  daysOfWeek    Json         @default("[]") @map("my_multiselect")
+  user          User?        @relation("Goal_user", fields: [userId], references: [id])
+  userId        String?      @map("user")
+
+  @@index([type])
+  @@index([userId])
+}
+
 model User {
   id            String    @id @default(uuid())
   name          String    @default("")
   email         String    @unique @default("")
   password      String
-  isAdmin       Boolean   @default(true)
   createdAt     DateTime? @default(now())
   lastLoginDate DateTime? @default(now())
   dateOfBirth   DateTime?
   weight        Int?
-  height        String    @default("")
+  height        Int?
   sex           String?
-  diabetesType  String?
+  diabetesType  Json      @default("[]")
+  goals         Goal[]    @relation("Goal_user")
+}
+
+enum GoalTypeType {
+  Exercise
+  Diet
 }
