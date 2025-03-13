@@ -63,6 +63,56 @@ export const User: ListConfig<Lists.User.TypeInfo<any>, any> = list({
         itemView: { fieldMode: "edit" },
       },
     }),
+    fastingBloodSugarMin: integer({
+      validation: { isRequired: true },
+      defaultValue: 70,
+      label: "Fasting Blood Sugar Minimum (mg/dL)",
+    }),
+    fastingBloodSugarMax: integer({
+      validation: { isRequired: true },
+      defaultValue: 100,
+      label: "Fasting Blood Sugar Maximum (mg/dL)",
+    }),
+    postprandialBloodSugarMin: integer({
+      validation: { isRequired: true },
+      defaultValue: 100,
+      label: "Postprandial Blood Sugar Minimum (mg/dL)",
+    }),
+    postprandialBloodSugarMax: integer({
+      validation: { isRequired: true },
+      defaultValue: 180,
+      label: "Postprandial Blood Sugar Maximum (mg/dL)",
+    }),
+    dietMeals: integer({
+      validation: { isRequired: false },
+      defaultValue: 3,
+      label: "Daily Meals Target",
+    }),
+    dietSnacks: integer({
+      validation: { isRequired: false },
+      defaultValue: 2,
+      label: "Daily Snacks Target",
+    }),
+    dietCarbs: integer({
+      validation: { isRequired: false },
+      defaultValue: 200,
+      label: "Daily Carbohydrates Target (g)",
+    }),
+    dietFiber: integer({
+      validation: { isRequired: false },
+      defaultValue: 25,
+      label: "Daily Fiber Target (g)",
+    }),
+    dietWater: integer({
+      validation: { isRequired: false },
+      defaultValue: 8,
+      label: "Daily Cups of Water",
+    }),
+    dietCalories: integer({
+      validation: { isRequired: false },
+      defaultValue: 2500,
+      label: "Daily Calorie Limit (kCal)",
+    }),
     sex: select({
       options: [
         { label: "Male", value: "male" },

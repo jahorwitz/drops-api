@@ -297,8 +297,11 @@ input MedicationCreateInput {
 type Notification {
   id: ID!
   type: NotificationTypeType
-  description: String
-  notificationTime: DateTime
+  name: String
+  days: [NotificationDayType!]
+  notificationTime: String
+  duration: Int
+  reminder: NotificationReminderType
   createdAt: DateTime
   status: String
   archivedAt: DateTime
@@ -313,6 +316,24 @@ enum NotificationTypeType {
   other
 }
 
+enum NotificationDayType {
+  Monday
+  Tuesday
+  Wednesday
+  Thursday
+  Friday
+  Saturday
+  Sunday
+}
+
+enum NotificationReminderType {
+  min15
+  min30
+  hour1
+  hour2
+  hour3
+}
+
 input NotificationWhereUniqueInput {
   id: ID
 }
@@ -323,8 +344,10 @@ input NotificationWhereInput {
   NOT: [NotificationWhereInput!]
   id: IDFilter
   type: NotificationTypeTypeNullableFilter
-  description: StringFilter
-  notificationTime: DateTimeFilter
+  name: StringFilter
+  notificationTime: StringFilter
+  duration: IntNullableFilter
+  reminder: NotificationReminderTypeNullableFilter
   createdAt: DateTimeNullableFilter
   status: StringNullableFilter
   archivedAt: DateTimeNullableFilter
@@ -336,6 +359,13 @@ input NotificationTypeTypeNullableFilter {
   in: [NotificationTypeType!]
   notIn: [NotificationTypeType!]
   not: NotificationTypeTypeNullableFilter
+}
+
+input NotificationReminderTypeNullableFilter {
+  equals: NotificationReminderType
+  in: [NotificationReminderType!]
+  notIn: [NotificationReminderType!]
+  not: NotificationReminderTypeNullableFilter
 }
 
 input StringNullableFilter {
@@ -355,8 +385,10 @@ input StringNullableFilter {
 input NotificationOrderByInput {
   id: OrderDirection
   type: OrderDirection
-  description: OrderDirection
+  name: OrderDirection
   notificationTime: OrderDirection
+  duration: OrderDirection
+  reminder: OrderDirection
   createdAt: OrderDirection
   status: OrderDirection
   archivedAt: OrderDirection
@@ -364,8 +396,11 @@ input NotificationOrderByInput {
 
 input NotificationUpdateInput {
   type: NotificationTypeType
-  description: String
-  notificationTime: DateTime
+  name: String
+  days: [NotificationDayType!]
+  notificationTime: String
+  duration: Int
+  reminder: NotificationReminderType
   createdAt: DateTime
   status: String
   archivedAt: DateTime
@@ -379,8 +414,11 @@ input NotificationUpdateArgs {
 
 input NotificationCreateInput {
   type: NotificationTypeType
-  description: String
-  notificationTime: DateTime
+  name: String
+  days: [NotificationDayType!]
+  notificationTime: String
+  duration: Int
+  reminder: NotificationReminderType
   createdAt: DateTime
   status: String
   archivedAt: DateTime
@@ -397,6 +435,16 @@ type User {
   dateOfBirth: DateTime
   weight: Int
   height: Int
+  fastingBloodSugarMin: Int
+  fastingBloodSugarMax: Int
+  postprandialBloodSugarMin: Int
+  postprandialBloodSugarMax: Int
+  dietMeals: Int
+  dietSnacks: Int
+  dietCarbs: Int
+  dietFiber: Int
+  dietWater: Int
+  dietCalories: Int
   sex: String
   diabetesType: [UserDiabetesTypeType!]
   goals(where: GoalWhereInput! = {}, orderBy: [GoalOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: GoalWhereUniqueInput): [Goal!]
@@ -436,6 +484,16 @@ input UserWhereInput {
   dateOfBirth: DateTimeNullableFilter
   weight: IntNullableFilter
   height: IntNullableFilter
+  fastingBloodSugarMin: IntFilter
+  fastingBloodSugarMax: IntFilter
+  postprandialBloodSugarMin: IntFilter
+  postprandialBloodSugarMax: IntFilter
+  dietMeals: IntNullableFilter
+  dietSnacks: IntNullableFilter
+  dietCarbs: IntNullableFilter
+  dietFiber: IntNullableFilter
+  dietWater: IntNullableFilter
+  dietCalories: IntNullableFilter
   sex: StringNullableFilter
   goals: GoalManyRelationFilter
   notifications: NotificationManyRelationFilter
@@ -476,6 +534,16 @@ input UserOrderByInput {
   dateOfBirth: OrderDirection
   weight: OrderDirection
   height: OrderDirection
+  fastingBloodSugarMin: OrderDirection
+  fastingBloodSugarMax: OrderDirection
+  postprandialBloodSugarMin: OrderDirection
+  postprandialBloodSugarMax: OrderDirection
+  dietMeals: OrderDirection
+  dietSnacks: OrderDirection
+  dietCarbs: OrderDirection
+  dietFiber: OrderDirection
+  dietWater: OrderDirection
+  dietCalories: OrderDirection
   sex: OrderDirection
 }
 
@@ -488,6 +556,16 @@ input UserUpdateInput {
   dateOfBirth: DateTime
   weight: Int
   height: Int
+  fastingBloodSugarMin: Int
+  fastingBloodSugarMax: Int
+  postprandialBloodSugarMin: Int
+  postprandialBloodSugarMax: Int
+  dietMeals: Int
+  dietSnacks: Int
+  dietCarbs: Int
+  dietFiber: Int
+  dietWater: Int
+  dietCalories: Int
   sex: String
   diabetesType: [UserDiabetesTypeType!]
   goals: GoalRelateToManyForUpdateInput
@@ -538,6 +616,16 @@ input UserCreateInput {
   dateOfBirth: DateTime
   weight: Int
   height: Int
+  fastingBloodSugarMin: Int
+  fastingBloodSugarMax: Int
+  postprandialBloodSugarMin: Int
+  postprandialBloodSugarMax: Int
+  dietMeals: Int
+  dietSnacks: Int
+  dietCarbs: Int
+  dietFiber: Int
+  dietWater: Int
+  dietCalories: Int
   sex: String
   diabetesType: [UserDiabetesTypeType!]
   goals: GoalRelateToManyForCreateInput

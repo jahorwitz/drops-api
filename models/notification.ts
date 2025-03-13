@@ -1,7 +1,14 @@
 import { list } from "@keystone-6/core";
 import type { ListConfig } from "@keystone-6/core";
 import type { Lists } from ".keystone/types";
-import { text, timestamp, relationship, select } from "@keystone-6/core/fields";
+import {
+  text,
+  timestamp,
+  relationship,
+  select,
+  integer,
+  multiselect,
+} from "@keystone-6/core/fields";
 
 export const Notification: ListConfig<
   Lists.Notification.TypeInfo<any>,
@@ -45,10 +52,45 @@ export const Notification: ListConfig<
       isIndexed: true,
       ui: { displayMode: "select" },
     }),
-    description: text({ validation: { isRequired: true } }),
-    notificationTime: timestamp({
-      defaultValue: { kind: "now" },
+    name: text({ validation: { isRequired: true } }),
+    days: multiselect({
+      type: "enum",
+      options: [
+        { label: "Monday", value: "Monday" },
+        { label: "Tuesday", value: "Tuesday" },
+        { label: "Wednesday", value: "Wednesday" },
+        { label: "Thursday", value: "Thursday" },
+        { label: "Friday", value: "Friday" },
+        { label: "Saturday", value: "Saturday" },
+        { label: "Sunday", value: "Sunday" },
+      ],
+      defaultValue: [
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday",
+        "Saturday",
+        "Sunday",
+      ],
+    }),
+    notificationTime: text({
       validation: { isRequired: true },
+    }),
+    duration: integer({
+      validation: { isRequired: false },
+      defaultValue: 0,
+    }),
+    reminder: select({
+      type: "enum",
+      options: [
+        { label: "15 minutes before", value: "min15" },
+        { label: "30 minutes before", value: "min30" },
+        { label: "1 hour before", value: "hour1" },
+        { label: "2 hours before", value: "hour2" },
+        { label: "3 hours before", value: "hour3" },
+      ],
+      validation: { isRequired: false },
     }),
     createdAt: timestamp({
       defaultValue: { kind: "now" },

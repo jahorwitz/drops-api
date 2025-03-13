@@ -1,0 +1,11 @@
+-- AlterTable
+ALTER TABLE `user` ADD COLUMN `dietCalories` INTEGER NULL,
+    ADD COLUMN `dietCarbs` INTEGER NULL,
+    ADD COLUMN `dietFiber` INTEGER NULL,
+    ADD COLUMN `dietMeals` INTEGER NULL,
+    ADD COLUMN `dietSnacks` INTEGER NULL,
+    ADD COLUMN `dietWater` INTEGER NULL,
+    ADD COLUMN `fastingBloodSugarMax` INTEGER NOT NULL DEFAULT 100,
+    ADD COLUMN `fastingBloodSugarMin` INTEGER NOT NULL DEFAULT 70,
+    ADD COLUMN `postprandialBloodSugarMax` INTEGER NOT NULL DEFAULT 180,
+    ADD COLUMN `postprandialBloodSugarMin` INTEGER NOT NULL DEFAULT 100;

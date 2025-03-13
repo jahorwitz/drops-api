@@ -51,36 +51,49 @@ model Medication {
 }
 
 model Notification {
-  id               String               @id @default(uuid())
-  type             NotificationTypeType @map("my_select")
-  description      String               @default("")
-  notificationTime DateTime             @default(now())
-  createdAt        DateTime?            @default(now())
-  status           String?              @default("new")
-  archivedAt       DateTime?            @default(now())
-  user             User?                @relation("Notification_user", fields: [userId], references: [id])
-  userId           String?              @map("user")
+  id               String                    @id @default(uuid())
+  type             NotificationTypeType      @map("my_select")
+  name             String                    @default("")
+  days             Json                      @default("[\"Monday\",\"Tuesday\",\"Wednesday\",\"Thursday\",\"Friday\",\"Saturday\",\"Sunday\"]")
+  notificationTime String                    @default("")
+  duration         Int?                      @default(0)
+  reminder         NotificationReminderType?
+  createdAt        DateTime?                 @default(now())
+  status           String?                   @default("new")
+  archivedAt       DateTime?                 @default(now())
+  user             User?                     @relation("Notification_user", fields: [userId], references: [id])
+  userId           String?                   @map("user")
 
   @@index([type])
   @@index([userId])
 }
 
 model User {
-  id            String         @id @default(uuid())
-  name          String         @default("")
-  email         String         @unique @default("")
-  password      String
-  createdAt     DateTime?      @default(now())
-  lastLoginDate DateTime?      @default(now())
-  dateOfBirth   DateTime?
-  weight        Int?
-  height        Int?
-  sex           String?
-  diabetesType  Json           @default("[]")
-  goals         Goal[]         @relation("Goal_user")
-  notifications Notification[] @relation("Notification_user")
-  activities    Activity[]     @relation("Activity_user")
-  medications   Medication[]   @relation("Medication_user")
+  id                        String         @id @default(uuid())
+  name                      String         @default("")
+  email                     String         @unique @default("")
+  password                  String
+  createdAt                 DateTime?      @default(now())
+  lastLoginDate             DateTime?      @default(now())
+  dateOfBirth               DateTime?
+  weight                    Int?
+  height                    Int?
+  fastingBloodSugarMin      Int            @default(70)
+  fastingBloodSugarMax      Int            @default(100)
+  postprandialBloodSugarMin Int            @default(100)
+  postprandialBloodSugarMax Int            @default(180)
+  dietMeals                 Int?           @default(3)
+  dietSnacks                Int?           @default(2)
+  dietCarbs                 Int?           @default(200)
+  dietFiber                 Int?           @default(25)
+  dietWater                 Int?           @default(8)
+  dietCalories              Int?           @default(2500)
+  sex                       String?
+  diabetesType              Json           @default("[]")
+  goals                     Goal[]         @relation("Goal_user")
+  notifications             Notification[] @relation("Notification_user")
+  activities                Activity[]     @relation("Activity_user")
+  medications               Medication[]   @relation("Medication_user")
 }
 
 enum GoalTypeType {
@@ -94,4 +107,12 @@ enum NotificationTypeType {
   Glucose
   Medicaton
   other
+}
+
+enum NotificationReminderType {
+  min15
+  min30
+  hour1
+  hour2
+  hour3
 }
