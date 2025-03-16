@@ -3,10 +3,8 @@ import type { ListConfig } from "@keystone-6/core";
 import type { Lists } from ".keystone/types";
 import {
   text,
-  timestamp,
   relationship,
   select,
-  integer,
   multiselect,
 } from "@keystone-6/core/fields";
 
@@ -44,7 +42,7 @@ export const Notification: ListConfig<
         { label: "Activity", value: "Activity" },
         { label: "Diet", value: "Diet" },
         { label: "Glucose", value: "Glucose" },
-        { label: "Medication", value: "Medicaton" },
+        { label: "Medication", value: "Medication" },
         { label: "Other", value: "other" },
       ],
       db: { map: "my_select" },
@@ -74,39 +72,7 @@ export const Notification: ListConfig<
         "Sunday",
       ],
     }),
-    notificationTime: text({
-      validation: { isRequired: true },
-    }),
-    duration: integer({
-      validation: { isRequired: false },
-      defaultValue: 0,
-    }),
-    reminder: select({
-      type: "enum",
-      options: [
-        { label: "15 minutes before", value: "min15" },
-        { label: "30 minutes before", value: "min30" },
-        { label: "1 hour before", value: "hour1" },
-        { label: "2 hours before", value: "hour2" },
-        { label: "3 hours before", value: "hour3" },
-      ],
-      validation: { isRequired: false },
-    }),
-    createdAt: timestamp({
-      defaultValue: { kind: "now" },
-    }),
-    status: select({
-      options: [
-        { label: "New", value: "new" },
-        { label: "Seen", value: "seen" },
-        { label: "Dismissed", value: "dismissed" },
-        { label: "Archived", value: "archived" },
-      ],
-      defaultValue: "new",
-    }),
-    archivedAt: timestamp({
-      defaultValue: { kind: "now" },
-    }),
     user: relationship({ ref: "User.notifications", many: false }),
+    times: relationship({ ref: "NotificationTime.notification", many: true }),
   },
 });

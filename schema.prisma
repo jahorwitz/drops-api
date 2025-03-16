@@ -51,21 +51,28 @@ model Medication {
 }
 
 model Notification {
-  id               String                    @id @default(uuid())
-  type             NotificationTypeType      @map("my_select")
-  name             String                    @default("")
-  days             Json                      @default("[\"Monday\",\"Tuesday\",\"Wednesday\",\"Thursday\",\"Friday\",\"Saturday\",\"Sunday\"]")
-  notificationTime String                    @default("")
-  duration         Int?                      @default(0)
-  reminder         NotificationReminderType?
-  createdAt        DateTime?                 @default(now())
-  status           String?                   @default("new")
-  archivedAt       DateTime?                 @default(now())
-  user             User?                     @relation("Notification_user", fields: [userId], references: [id])
-  userId           String?                   @map("user")
+  id     String               @id @default(uuid())
+  type   NotificationTypeType @map("my_select")
+  name   String               @default("")
+  days   Json                 @default("[\"Monday\",\"Tuesday\",\"Wednesday\",\"Thursday\",\"Friday\",\"Saturday\",\"Sunday\"]")
+  user   User?                @relation("Notification_user", fields: [userId], references: [id])
+  userId String?              @map("user")
+  times  NotificationTime[]   @relation("NotificationTime_notification")
 
   @@index([type])
   @@index([userId])
+}
+
+model NotificationTime {
+  id               String        @id @default(uuid())
+  notificationTime String        @default("")
+  status           String?       @default("new")
+  createdAt        DateTime?     @default(now())
+  archivedAt       DateTime?     @default(now())
+  notification     Notification? @relation("NotificationTime_notification", fields: [notificationId], references: [id])
+  notificationId   String?       @map("notification")
+
+  @@index([notificationId])
 }
 
 model User {
@@ -105,14 +112,6 @@ enum NotificationTypeType {
   Activity
   Diet
   Glucose
-  Medicaton
+  Medication
   other
-}
-
-enum NotificationReminderType {
-  min15
-  min30
-  hour1
-  hour2
-  hour3
 }

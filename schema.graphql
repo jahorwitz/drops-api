@@ -299,20 +299,16 @@ type Notification {
   type: NotificationTypeType
   name: String
   days: [NotificationDayType!]
-  notificationTime: String
-  duration: Int
-  reminder: NotificationReminderType
-  createdAt: DateTime
-  status: String
-  archivedAt: DateTime
   user: User
+  times(where: NotificationTimeWhereInput! = {}, orderBy: [NotificationTimeOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: NotificationTimeWhereUniqueInput): [NotificationTime!]
+  timesCount(where: NotificationTimeWhereInput! = {}): Int
 }
 
 enum NotificationTypeType {
   Activity
   Diet
   Glucose
-  Medicaton
+  Medication
   other
 }
 
@@ -326,14 +322,6 @@ enum NotificationDayType {
   Sunday
 }
 
-enum NotificationReminderType {
-  min15
-  min30
-  hour1
-  hour2
-  hour3
-}
-
 input NotificationWhereUniqueInput {
   id: ID
 }
@@ -345,13 +333,8 @@ input NotificationWhereInput {
   id: IDFilter
   type: NotificationTypeTypeNullableFilter
   name: StringFilter
-  notificationTime: StringFilter
-  duration: IntNullableFilter
-  reminder: NotificationReminderTypeNullableFilter
-  createdAt: DateTimeNullableFilter
-  status: StringNullableFilter
-  archivedAt: DateTimeNullableFilter
   user: UserWhereInput
+  times: NotificationTimeManyRelationFilter
 }
 
 input NotificationTypeTypeNullableFilter {
@@ -361,11 +344,74 @@ input NotificationTypeTypeNullableFilter {
   not: NotificationTypeTypeNullableFilter
 }
 
-input NotificationReminderTypeNullableFilter {
-  equals: NotificationReminderType
-  in: [NotificationReminderType!]
-  notIn: [NotificationReminderType!]
-  not: NotificationReminderTypeNullableFilter
+input NotificationTimeManyRelationFilter {
+  every: NotificationTimeWhereInput
+  some: NotificationTimeWhereInput
+  none: NotificationTimeWhereInput
+}
+
+input NotificationOrderByInput {
+  id: OrderDirection
+  type: OrderDirection
+  name: OrderDirection
+}
+
+input NotificationUpdateInput {
+  type: NotificationTypeType
+  name: String
+  days: [NotificationDayType!]
+  user: UserRelateToOneForUpdateInput
+  times: NotificationTimeRelateToManyForUpdateInput
+}
+
+input NotificationTimeRelateToManyForUpdateInput {
+  disconnect: [NotificationTimeWhereUniqueInput!]
+  set: [NotificationTimeWhereUniqueInput!]
+  create: [NotificationTimeCreateInput!]
+  connect: [NotificationTimeWhereUniqueInput!]
+}
+
+input NotificationUpdateArgs {
+  where: NotificationWhereUniqueInput!
+  data: NotificationUpdateInput!
+}
+
+input NotificationCreateInput {
+  type: NotificationTypeType
+  name: String
+  days: [NotificationDayType!]
+  user: UserRelateToOneForCreateInput
+  times: NotificationTimeRelateToManyForCreateInput
+}
+
+input NotificationTimeRelateToManyForCreateInput {
+  create: [NotificationTimeCreateInput!]
+  connect: [NotificationTimeWhereUniqueInput!]
+}
+
+type NotificationTime {
+  id: ID!
+  notificationTime: String
+  status: String
+  createdAt: DateTime
+  archivedAt: DateTime
+  notification: Notification
+}
+
+input NotificationTimeWhereUniqueInput {
+  id: ID
+}
+
+input NotificationTimeWhereInput {
+  AND: [NotificationTimeWhereInput!]
+  OR: [NotificationTimeWhereInput!]
+  NOT: [NotificationTimeWhereInput!]
+  id: IDFilter
+  notificationTime: StringFilter
+  status: StringNullableFilter
+  createdAt: DateTimeNullableFilter
+  archivedAt: DateTimeNullableFilter
+  notification: NotificationWhereInput
 }
 
 input StringNullableFilter {
@@ -382,47 +428,44 @@ input StringNullableFilter {
   not: StringNullableFilter
 }
 
-input NotificationOrderByInput {
+input NotificationTimeOrderByInput {
   id: OrderDirection
-  type: OrderDirection
-  name: OrderDirection
   notificationTime: OrderDirection
-  duration: OrderDirection
-  reminder: OrderDirection
-  createdAt: OrderDirection
   status: OrderDirection
+  createdAt: OrderDirection
   archivedAt: OrderDirection
 }
 
-input NotificationUpdateInput {
-  type: NotificationTypeType
-  name: String
-  days: [NotificationDayType!]
+input NotificationTimeUpdateInput {
   notificationTime: String
-  duration: Int
-  reminder: NotificationReminderType
-  createdAt: DateTime
   status: String
+  createdAt: DateTime
   archivedAt: DateTime
-  user: UserRelateToOneForUpdateInput
+  notification: NotificationRelateToOneForUpdateInput
 }
 
-input NotificationUpdateArgs {
-  where: NotificationWhereUniqueInput!
-  data: NotificationUpdateInput!
+input NotificationRelateToOneForUpdateInput {
+  create: NotificationCreateInput
+  connect: NotificationWhereUniqueInput
+  disconnect: Boolean
 }
 
-input NotificationCreateInput {
-  type: NotificationTypeType
-  name: String
-  days: [NotificationDayType!]
+input NotificationTimeUpdateArgs {
+  where: NotificationTimeWhereUniqueInput!
+  data: NotificationTimeUpdateInput!
+}
+
+input NotificationTimeCreateInput {
   notificationTime: String
-  duration: Int
-  reminder: NotificationReminderType
-  createdAt: DateTime
   status: String
+  createdAt: DateTime
   archivedAt: DateTime
-  user: UserRelateToOneForCreateInput
+  notification: NotificationRelateToOneForCreateInput
+}
+
+input NotificationRelateToOneForCreateInput {
+  create: NotificationCreateInput
+  connect: NotificationWhereUniqueInput
 }
 
 type User {
@@ -684,6 +727,12 @@ type Mutation {
   updateNotifications(data: [NotificationUpdateArgs!]!): [Notification]
   deleteNotification(where: NotificationWhereUniqueInput!): Notification
   deleteNotifications(where: [NotificationWhereUniqueInput!]!): [Notification]
+  createNotificationTime(data: NotificationTimeCreateInput!): NotificationTime
+  createNotificationTimes(data: [NotificationTimeCreateInput!]!): [NotificationTime]
+  updateNotificationTime(where: NotificationTimeWhereUniqueInput!, data: NotificationTimeUpdateInput!): NotificationTime
+  updateNotificationTimes(data: [NotificationTimeUpdateArgs!]!): [NotificationTime]
+  deleteNotificationTime(where: NotificationTimeWhereUniqueInput!): NotificationTime
+  deleteNotificationTimes(where: [NotificationTimeWhereUniqueInput!]!): [NotificationTime]
   createUser(data: UserCreateInput!): User
   createUsers(data: [UserCreateInput!]!): [User]
   updateUser(where: UserWhereUniqueInput!, data: UserUpdateInput!): User
@@ -725,6 +774,9 @@ type Query {
   notifications(where: NotificationWhereInput! = {}, orderBy: [NotificationOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: NotificationWhereUniqueInput): [Notification!]
   notification(where: NotificationWhereUniqueInput!): Notification
   notificationsCount(where: NotificationWhereInput! = {}): Int
+  notificationTimes(where: NotificationTimeWhereInput! = {}, orderBy: [NotificationTimeOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: NotificationTimeWhereUniqueInput): [NotificationTime!]
+  notificationTime(where: NotificationTimeWhereUniqueInput!): NotificationTime
+  notificationTimesCount(where: NotificationTimeWhereInput! = {}): Int
   users(where: UserWhereInput! = {}, orderBy: [UserOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: UserWhereUniqueInput): [User!]
   user(where: UserWhereUniqueInput!): User
   usersCount(where: UserWhereInput! = {}): Int
