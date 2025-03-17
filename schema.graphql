@@ -305,21 +305,21 @@ type Notification {
 }
 
 enum NotificationTypeType {
-  Activity
+  Exercise
   Diet
   Glucose
   Medication
-  other
+  Other
 }
 
 enum NotificationDayType {
-  Monday
-  Tuesday
-  Wednesday
-  Thursday
-  Friday
-  Saturday
-  Sunday
+  MONDAY
+  TUESDAY
+  WEDNESDAY
+  THURSDAY
+  FRIDAY
+  SATURDAY
+  SUNDAY
 }
 
 input NotificationWhereUniqueInput {

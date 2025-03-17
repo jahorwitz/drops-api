@@ -54,7 +54,7 @@ model Notification {
   id     String               @id @default(uuid())
   type   NotificationTypeType @map("my_select")
   name   String               @default("")
-  days   Json                 @default("[\"Monday\",\"Tuesday\",\"Wednesday\",\"Thursday\",\"Friday\",\"Saturday\",\"Sunday\"]")
+  days   Json                 @default("[\"MONDAY\",\"TUESDAY\",\"WEDNESDAY\",\"THURSDAY\",\"FRIDAY\",\"SATURDAY\",\"SUNDAY\"]")
   user   User?                @relation("Notification_user", fields: [userId], references: [id])
   userId String?              @map("user")
   times  NotificationTime[]   @relation("NotificationTime_notification")
@@ -109,9 +109,9 @@ enum GoalTypeType {
 }
 
 enum NotificationTypeType {
-  Activity
+  Exercise
   Diet
   Glucose
   Medication
-  other
+  Other
 }
