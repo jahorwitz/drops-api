@@ -9,6 +9,7 @@ import {
   integer,
   relationship,
   multiselect,
+  checkbox,
 } from "@keystone-6/core/fields";
 
 export const User: ListConfig<Lists.User.TypeInfo<any>, any> = list({
@@ -78,6 +79,14 @@ export const User: ListConfig<Lists.User.TypeInfo<any>, any> = list({
         { label: "Type 2", value: "type2" },
         { label: "Gestational", value: "gestational" },
       ],
+    }),
+    isRegistrationComplete: checkbox({
+      defaultValue: false,
+      label: "Is Registration Complete",
+    }),
+    isOnboardingComplete: checkbox({
+      defaultValue: false,
+      label: "Is Onboarding Complete",
     }),
     goals: relationship({ ref: "Goal.user", many: true }),
     notifications: relationship({ ref: "Notification.user", many: true }),
