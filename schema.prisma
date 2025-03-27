@@ -46,6 +46,7 @@ model Medication {
   time          String  @default("")
   user          User?   @relation("Medication_user", fields: [userId], references: [id])
   userId        String? @map("user")
+  status        Boolean @default(false)
 
   @@index([userId])
 }

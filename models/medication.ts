@@ -1,7 +1,7 @@
 import { list } from "@keystone-6/core";
 import type { ListConfig } from "@keystone-6/core";
 import type { Lists } from ".keystone/types";
-import { integer, relationship, text } from "@keystone-6/core/fields";
+import { integer, relationship, text, checkbox } from "@keystone-6/core/fields";
 
 export const Medication: ListConfig<Lists.Medication.TypeInfo<any>, any> = list(
   {
@@ -34,6 +34,7 @@ export const Medication: ListConfig<Lists.Medication.TypeInfo<any>, any> = list(
       unitOfMeasure: text({ validation: { isRequired: true } }),
       time: text({ validation: { isRequired: true } }),
       user: relationship({ ref: "User.medications", many: false }),
+      status: checkbox({ defaultValue: false }),
     },
   },
 );
