@@ -410,6 +410,8 @@ type User {
   height: Int
   sex: String
   diabetesType: [UserDiabetesTypeType!]
+  isRegistrationComplete: Boolean
+  isOnboardingComplete: Boolean
   goals(
     where: GoalWhereInput! = {}
     orderBy: [GoalOrderByInput!]! = []
@@ -472,10 +474,17 @@ input UserWhereInput {
   weight: IntNullableFilter
   height: IntNullableFilter
   sex: StringNullableFilter
+  isRegistrationComplete: BooleanFilter
+  isOnboardingComplete: BooleanFilter
   goals: GoalManyRelationFilter
   notifications: NotificationManyRelationFilter
   activities: ActivityManyRelationFilter
   medications: MedicationManyRelationFilter
+}
+
+input BooleanFilter {
+  equals: Boolean
+  not: BooleanFilter
 }
 
 input GoalManyRelationFilter {
@@ -512,6 +521,8 @@ input UserOrderByInput {
   weight: OrderDirection
   height: OrderDirection
   sex: OrderDirection
+  isRegistrationComplete: OrderDirection
+  isOnboardingComplete: OrderDirection
 }
 
 input UserUpdateInput {
@@ -525,6 +536,8 @@ input UserUpdateInput {
   height: Int
   sex: String
   diabetesType: [UserDiabetesTypeType!]
+  isRegistrationComplete: Boolean
+  isOnboardingComplete: Boolean
   goals: GoalRelateToManyForUpdateInput
   notifications: NotificationRelateToManyForUpdateInput
   activities: ActivityRelateToManyForUpdateInput
@@ -575,6 +588,8 @@ input UserCreateInput {
   height: Int
   sex: String
   diabetesType: [UserDiabetesTypeType!]
+  isRegistrationComplete: Boolean
+  isOnboardingComplete: Boolean
   goals: GoalRelateToManyForCreateInput
   notifications: NotificationRelateToManyForCreateInput
   activities: ActivityRelateToManyForCreateInput

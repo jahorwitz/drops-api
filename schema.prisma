@@ -67,21 +67,23 @@ model Notification {
 }
 
 model User {
-  id            String         @id @default(uuid())
-  name          String         @default("")
-  email         String         @unique @default("")
-  password      String
-  createdAt     DateTime?      @default(now())
-  lastLoginDate DateTime?      @default(now())
-  dateOfBirth   DateTime?
-  weight        Int?
-  height        Int?
-  sex           String?
-  diabetesType  Json           @default("[]")
-  goals         Goal[]         @relation("Goal_user")
-  notifications Notification[] @relation("Notification_user")
-  activities    Activity[]     @relation("Activity_user")
-  medications   Medication[]   @relation("Medication_user")
+  id                     String         @id @default(uuid())
+  name                   String         @default("")
+  email                  String         @unique @default("")
+  password               String
+  createdAt              DateTime?      @default(now())
+  lastLoginDate          DateTime?      @default(now())
+  dateOfBirth            DateTime?
+  weight                 Int?
+  height                 Int?
+  sex                    String?
+  diabetesType           Json           @default("[]")
+  isRegistrationComplete Boolean        @default(false)
+  isOnboardingComplete   Boolean        @default(false)
+  goals                  Goal[]         @relation("Goal_user")
+  notifications          Notification[] @relation("Notification_user")
+  activities             Activity[]     @relation("Activity_user")
+  medications            Medication[]   @relation("Medication_user")
 }
 
 enum GoalTypeType {
