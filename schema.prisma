@@ -39,14 +39,15 @@ model Goal {
 }
 
 model Medication {
-  id            String  @id @default(uuid())
-  name          String  @default("")
+  id            String   @id @default(uuid())
+  name          String   @default("")
   amount        Int
-  unitOfMeasure String  @default("")
-  time          String  @default("")
-  user          User?   @relation("Medication_user", fields: [userId], references: [id])
-  userId        String? @map("user")
-  status        Boolean @default(false)
+  unitOfMeasure String   @default("")
+  time          String   @default("")
+  user          User?    @relation("Medication_user", fields: [userId], references: [id])
+  userId        String?  @map("user")
+  status        Boolean  @default(false)
+  date          DateTime @default(now())
 
   @@index([userId])
 }
