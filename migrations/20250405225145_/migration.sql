@@ -69,6 +69,8 @@ CREATE TABLE `User` (
     `height` INTEGER NULL,
     `sex` VARCHAR(191) NULL,
     `diabetesType` JSON NOT NULL,
+    `isRegistrationComplete` BOOLEAN NOT NULL DEFAULT false,
+    `isOnboardingComplete` BOOLEAN NOT NULL DEFAULT false,
 
     UNIQUE INDEX `User_email_key`(`email`),
     PRIMARY KEY (`id`)
