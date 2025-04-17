@@ -45,10 +45,6 @@ export const Mood: ListConfig<Lists.Mood.TypeInfo<any>, any> = list({
       db: { map: "my_check_timestamp", updatedAt: true },
       validation: { isRequired: true },
     }),
-    user: relationship({
-      ref: "User.moods",
-      many: false,
-      db: { foreignKey: { map: "userid" } },
-    }),
+    user: relationship({ ref: "User.moods", many: false }),
   },
 });
