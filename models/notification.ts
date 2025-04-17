@@ -38,6 +38,7 @@ export const Notification: ListConfig<
         { label: "Diet", value: "Diet" },
         { label: "Glucose", value: "Glucose" },
         { label: "Medication", value: "Medicaton" },
+        { label: "Mood", value: "Mood" },
         { label: "Other", value: "other" },
       ],
       db: { map: "my_select" },
