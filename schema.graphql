@@ -294,6 +294,71 @@ input MedicationCreateInput {
   user: UserRelateToOneForCreateInput
 }
 
+type Mood {
+  id: ID!
+  name: String
+  currentMood: MoodCurrentMoodType
+  checkTime: DateTime
+  user: User
+}
+
+enum MoodCurrentMoodType {
+  great
+  good
+  average
+  soso
+  poor
+  distressed
+}
+
+input MoodWhereUniqueInput {
+  id: ID
+}
+
+input MoodWhereInput {
+  AND: [MoodWhereInput!]
+  OR: [MoodWhereInput!]
+  NOT: [MoodWhereInput!]
+  id: IDFilter
+  name: StringFilter
+  currentMood: MoodCurrentMoodTypeNullableFilter
+  checkTime: DateTimeFilter
+  user: UserWhereInput
+}
+
+input MoodCurrentMoodTypeNullableFilter {
+  equals: MoodCurrentMoodType
+  in: [MoodCurrentMoodType!]
+  notIn: [MoodCurrentMoodType!]
+  not: MoodCurrentMoodTypeNullableFilter
+}
+
+input MoodOrderByInput {
+  id: OrderDirection
+  name: OrderDirection
+  currentMood: OrderDirection
+  checkTime: OrderDirection
+}
+
+input MoodUpdateInput {
+  name: String
+  currentMood: MoodCurrentMoodType
+  checkTime: DateTime
+  user: UserRelateToOneForUpdateInput
+}
+
+input MoodUpdateArgs {
+  where: MoodWhereUniqueInput!
+  data: MoodUpdateInput!
+}
+
+input MoodCreateInput {
+  name: String
+  currentMood: MoodCurrentMoodType
+  checkTime: DateTime
+  user: UserRelateToOneForCreateInput
+}
+
 type Notification {
   id: ID!
   type: NotificationTypeType
@@ -310,6 +375,7 @@ enum NotificationTypeType {
   Diet
   Glucose
   Medicaton
+  Mood
   other
 }
 
@@ -409,6 +475,8 @@ type User {
   activitiesCount(where: ActivityWhereInput! = {}): Int
   medications(where: MedicationWhereInput! = {}, orderBy: [MedicationOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: MedicationWhereUniqueInput): [Medication!]
   medicationsCount(where: MedicationWhereInput! = {}): Int
+  moods(where: MoodWhereInput! = {}, orderBy: [MoodOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: MoodWhereUniqueInput): [Mood!]
+  moodsCount(where: MoodWhereInput! = {}): Int
 }
 
 type PasswordState {
@@ -445,6 +513,7 @@ input UserWhereInput {
   notifications: NotificationManyRelationFilter
   activities: ActivityManyRelationFilter
   medications: MedicationManyRelationFilter
+  moods: MoodManyRelationFilter
 }
 
 input BooleanFilter {
@@ -474,6 +543,12 @@ input MedicationManyRelationFilter {
   every: MedicationWhereInput
   some: MedicationWhereInput
   none: MedicationWhereInput
+}
+
+input MoodManyRelationFilter {
+  every: MoodWhereInput
+  some: MoodWhereInput
+  none: MoodWhereInput
 }
 
 input UserOrderByInput {
@@ -507,6 +582,7 @@ input UserUpdateInput {
   notifications: NotificationRelateToManyForUpdateInput
   activities: ActivityRelateToManyForUpdateInput
   medications: MedicationRelateToManyForUpdateInput
+  moods: MoodRelateToManyForUpdateInput
 }
 
 input GoalRelateToManyForUpdateInput {
@@ -537,6 +613,13 @@ input MedicationRelateToManyForUpdateInput {
   connect: [MedicationWhereUniqueInput!]
 }
 
+input MoodRelateToManyForUpdateInput {
+  disconnect: [MoodWhereUniqueInput!]
+  set: [MoodWhereUniqueInput!]
+  create: [MoodCreateInput!]
+  connect: [MoodWhereUniqueInput!]
+}
+
 input UserUpdateArgs {
   where: UserWhereUniqueInput!
   data: UserUpdateInput!
@@ -559,6 +642,7 @@ input UserCreateInput {
   notifications: NotificationRelateToManyForCreateInput
   activities: ActivityRelateToManyForCreateInput
   medications: MedicationRelateToManyForCreateInput
+  moods: MoodRelateToManyForCreateInput
 }
 
 input GoalRelateToManyForCreateInput {
@@ -579,6 +663,11 @@ input ActivityRelateToManyForCreateInput {
 input MedicationRelateToManyForCreateInput {
   create: [MedicationCreateInput!]
   connect: [MedicationWhereUniqueInput!]
+}
+
+input MoodRelateToManyForCreateInput {
+  create: [MoodCreateInput!]
+  connect: [MoodWhereUniqueInput!]
 }
 
 """
@@ -605,6 +694,12 @@ type Mutation {
   updateMedications(data: [MedicationUpdateArgs!]!): [Medication]
   deleteMedication(where: MedicationWhereUniqueInput!): Medication
   deleteMedications(where: [MedicationWhereUniqueInput!]!): [Medication]
+  createMood(data: MoodCreateInput!): Mood
+  createMoods(data: [MoodCreateInput!]!): [Mood]
+  updateMood(where: MoodWhereUniqueInput!, data: MoodUpdateInput!): Mood
+  updateMoods(data: [MoodUpdateArgs!]!): [Mood]
+  deleteMood(where: MoodWhereUniqueInput!): Mood
+  deleteMoods(where: [MoodWhereUniqueInput!]!): [Mood]
   createNotification(data: NotificationCreateInput!): Notification
   createNotifications(data: [NotificationCreateInput!]!): [Notification]
   updateNotification(where: NotificationWhereUniqueInput!, data: NotificationUpdateInput!): Notification
@@ -649,6 +744,9 @@ type Query {
   medications(where: MedicationWhereInput! = {}, orderBy: [MedicationOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: MedicationWhereUniqueInput): [Medication!]
   medication(where: MedicationWhereUniqueInput!): Medication
   medicationsCount(where: MedicationWhereInput! = {}): Int
+  moods(where: MoodWhereInput! = {}, orderBy: [MoodOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: MoodWhereUniqueInput): [Mood!]
+  mood(where: MoodWhereUniqueInput!): Mood
+  moodsCount(where: MoodWhereInput! = {}): Int
   notifications(where: NotificationWhereInput! = {}, orderBy: [NotificationOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: NotificationWhereUniqueInput): [Notification!]
   notification(where: NotificationWhereUniqueInput!): Notification
   notificationsCount(where: NotificationWhereInput! = {}): Int

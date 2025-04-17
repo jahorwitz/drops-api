@@ -50,6 +50,18 @@ model Medication {
   @@index([userId])
 }
 
+model Mood {
+  id          String              @id @default(uuid())
+  name        String              @default("")
+  currentMood MoodCurrentMoodType @map("mood_select")
+  checkTime   DateTime            @default(now()) @updatedAt @map("my_check_timestamp")
+  user        User?               @relation("Mood_user", fields: [userId], references: [id])
+  userId      String?             @map("user")
+
+  @@index([currentMood])
+  @@index([userId])
+}
+
 model Notification {
   id               String               @id @default(uuid())
   type             NotificationTypeType @map("my_select")
@@ -83,6 +95,7 @@ model User {
   notifications          Notification[] @relation("Notification_user")
   activities             Activity[]     @relation("Activity_user")
   medications            Medication[]   @relation("Medication_user")
+  moods                  Mood[]         @relation("Mood_user")
 }
 
 enum GoalTypeType {
@@ -90,10 +103,20 @@ enum GoalTypeType {
   Diet
 }
 
+enum MoodCurrentMoodType {
+  great
+  good
+  average
+  soso
+  poor
+  distressed
+}
+
 enum NotificationTypeType {
   Activity
   Diet
   Glucose
   Medicaton
+  Mood
   other
 }
