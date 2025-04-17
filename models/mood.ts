@@ -30,6 +30,7 @@ export const Mood: ListConfig<Lists.Mood.TypeInfo<any>, any> = list({
   fields: {
     name: text({ validation: { isRequired: true } }),
     currentMood: select({
+      type: "enum",
       options: [
         { label: "Great", value: "great" },
         { label: "Good", value: "good" },
@@ -38,13 +39,20 @@ export const Mood: ListConfig<Lists.Mood.TypeInfo<any>, any> = list({
         { label: "Poor", value: "poor" },
         { label: "Distressed", value: "distressed" },
       ],
-      defaultValue: "average",
+      db: { map: "mood_select" },
+      validation: { isRequired: true },
+      isIndexed: true,
+      ui: { displayMode: "select" },
     }),
     checkTime: timestamp({
       defaultValue: { kind: "now" },
       db: { map: "my_check_timestamp", updatedAt: true },
       validation: { isRequired: true },
     }),
-    user: relationship({ ref: "User.moods", many: false }),
+    user: relationship({
+      ref: "User.moods",
+      many: false,
+      // db: { foreignKey: { map: "userid" } },
+    }),
   },
 });
