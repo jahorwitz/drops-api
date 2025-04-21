@@ -116,7 +116,7 @@ enum NotificationTypeType {
   Activity
   Diet
   Glucose
-  Medicaton
+  Medication
   Mood
   other
 }
