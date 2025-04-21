@@ -37,7 +37,7 @@ export const Notification: ListConfig<
         { label: "Activity", value: "Activity" },
         { label: "Diet", value: "Diet" },
         { label: "Glucose", value: "Glucose" },
-        { label: "Medication", value: "Medicaton" },
+        { label: "Medication", value: "Medication" },
         { label: "Mood", value: "Mood" },
         { label: "Other", value: "other" },
       ],
