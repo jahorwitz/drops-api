@@ -387,9 +387,65 @@ input NotificationCreateInput {
   user: UserRelateToOneForCreateInput
 }
 
+type Reminder {
+  id: ID!
+  label: String
+  type: String
+  time: String
+  createdAt: DateTime
+  user: User
+}
+
+input ReminderWhereUniqueInput {
+  id: ID
+}
+
+input ReminderWhereInput {
+  AND: [ReminderWhereInput!]
+  OR: [ReminderWhereInput!]
+  NOT: [ReminderWhereInput!]
+  id: IDFilter
+  label: StringFilter
+  type: StringFilter
+  time: StringFilter
+  createdAt: DateTimeNullableFilter
+  user: UserWhereInput
+}
+
+input ReminderOrderByInput {
+  id: OrderDirection
+  label: OrderDirection
+  type: OrderDirection
+  time: OrderDirection
+  createdAt: OrderDirection
+}
+
+input ReminderUpdateInput {
+  label: String
+  type: String
+  time: String
+  createdAt: DateTime
+  user: UserRelateToOneForUpdateInput
+}
+
+input ReminderUpdateArgs {
+  where: ReminderWhereUniqueInput!
+  data: ReminderUpdateInput!
+}
+
+input ReminderCreateInput {
+  label: String
+  type: String
+  time: String
+  createdAt: DateTime
+  user: UserRelateToOneForCreateInput
+}
+
 type User {
   id: ID!
   name: String
+  reminders(where: ReminderWhereInput! = {}, orderBy: [ReminderOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: ReminderWhereUniqueInput): [Reminder!]
+  remindersCount(where: ReminderWhereInput! = {}): Int
   email: String
   password: PasswordState
   createdAt: DateTime
@@ -432,6 +488,7 @@ input UserWhereInput {
   NOT: [UserWhereInput!]
   id: IDFilter
   name: StringFilter
+  reminders: ReminderManyRelationFilter
   email: StringFilter
   createdAt: DateTimeNullableFilter
   lastLoginDate: DateTimeNullableFilter
@@ -445,6 +502,12 @@ input UserWhereInput {
   notifications: NotificationManyRelationFilter
   activities: ActivityManyRelationFilter
   medications: MedicationManyRelationFilter
+}
+
+input ReminderManyRelationFilter {
+  every: ReminderWhereInput
+  some: ReminderWhereInput
+  none: ReminderWhereInput
 }
 
 input BooleanFilter {
@@ -492,6 +555,7 @@ input UserOrderByInput {
 
 input UserUpdateInput {
   name: String
+  reminders: ReminderRelateToManyForUpdateInput
   email: String
   password: String
   createdAt: DateTime
@@ -507,6 +571,13 @@ input UserUpdateInput {
   notifications: NotificationRelateToManyForUpdateInput
   activities: ActivityRelateToManyForUpdateInput
   medications: MedicationRelateToManyForUpdateInput
+}
+
+input ReminderRelateToManyForUpdateInput {
+  disconnect: [ReminderWhereUniqueInput!]
+  set: [ReminderWhereUniqueInput!]
+  create: [ReminderCreateInput!]
+  connect: [ReminderWhereUniqueInput!]
 }
 
 input GoalRelateToManyForUpdateInput {
@@ -544,6 +615,7 @@ input UserUpdateArgs {
 
 input UserCreateInput {
   name: String
+  reminders: ReminderRelateToManyForCreateInput
   email: String
   password: String
   createdAt: DateTime
@@ -559,6 +631,11 @@ input UserCreateInput {
   notifications: NotificationRelateToManyForCreateInput
   activities: ActivityRelateToManyForCreateInput
   medications: MedicationRelateToManyForCreateInput
+}
+
+input ReminderRelateToManyForCreateInput {
+  create: [ReminderCreateInput!]
+  connect: [ReminderWhereUniqueInput!]
 }
 
 input GoalRelateToManyForCreateInput {
@@ -611,6 +688,12 @@ type Mutation {
   updateNotifications(data: [NotificationUpdateArgs!]!): [Notification]
   deleteNotification(where: NotificationWhereUniqueInput!): Notification
   deleteNotifications(where: [NotificationWhereUniqueInput!]!): [Notification]
+  createReminder(data: ReminderCreateInput!): Reminder
+  createReminders(data: [ReminderCreateInput!]!): [Reminder]
+  updateReminder(where: ReminderWhereUniqueInput!, data: ReminderUpdateInput!): Reminder
+  updateReminders(data: [ReminderUpdateArgs!]!): [Reminder]
+  deleteReminder(where: ReminderWhereUniqueInput!): Reminder
+  deleteReminders(where: [ReminderWhereUniqueInput!]!): [Reminder]
   createUser(data: UserCreateInput!): User
   createUsers(data: [UserCreateInput!]!): [User]
   updateUser(where: UserWhereUniqueInput!, data: UserUpdateInput!): User
@@ -652,6 +735,9 @@ type Query {
   notifications(where: NotificationWhereInput! = {}, orderBy: [NotificationOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: NotificationWhereUniqueInput): [Notification!]
   notification(where: NotificationWhereUniqueInput!): Notification
   notificationsCount(where: NotificationWhereInput! = {}): Int
+  reminders(where: ReminderWhereInput! = {}, orderBy: [ReminderOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: ReminderWhereUniqueInput): [Reminder!]
+  reminder(where: ReminderWhereUniqueInput!): Reminder
+  remindersCount(where: ReminderWhereInput! = {}): Int
   users(where: UserWhereInput! = {}, orderBy: [UserOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: UserWhereUniqueInput): [User!]
   user(where: UserWhereUniqueInput!): User
   usersCount(where: UserWhereInput! = {}): Int
