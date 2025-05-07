@@ -150,6 +150,96 @@ input UserRelateToOneForCreateInput {
   connect: UserWhereUniqueInput
 }
 
+type DietLog {
+  id: ID!
+  mealName: String
+  mealDescription: String
+  logTime: DateTime
+  calories: Int
+  protein: Int
+  carbs: Int
+  fiber: Int
+  sugar: Int
+  createdAt: DateTime
+  user: User
+}
+
+input DietLogWhereUniqueInput {
+  id: ID
+}
+
+input DietLogWhereInput {
+  AND: [DietLogWhereInput!]
+  OR: [DietLogWhereInput!]
+  NOT: [DietLogWhereInput!]
+  id: IDFilter
+  mealName: StringFilter
+  mealDescription: StringFilter
+  logTime: DateTimeFilter
+  calories: IntFilter
+  protein: IntNullableFilter
+  carbs: IntNullableFilter
+  fiber: IntNullableFilter
+  sugar: IntNullableFilter
+  createdAt: DateTimeNullableFilter
+  user: UserWhereInput
+}
+
+input IntFilter {
+  equals: Int
+  in: [Int!]
+  notIn: [Int!]
+  lt: Int
+  lte: Int
+  gt: Int
+  gte: Int
+  not: IntFilter
+}
+
+input DietLogOrderByInput {
+  id: OrderDirection
+  mealName: OrderDirection
+  mealDescription: OrderDirection
+  logTime: OrderDirection
+  calories: OrderDirection
+  protein: OrderDirection
+  carbs: OrderDirection
+  fiber: OrderDirection
+  sugar: OrderDirection
+  createdAt: OrderDirection
+}
+
+input DietLogUpdateInput {
+  mealName: String
+  mealDescription: String
+  logTime: DateTime
+  calories: Int
+  protein: Int
+  carbs: Int
+  fiber: Int
+  sugar: Int
+  createdAt: DateTime
+  user: UserRelateToOneForUpdateInput
+}
+
+input DietLogUpdateArgs {
+  where: DietLogWhereUniqueInput!
+  data: DietLogUpdateInput!
+}
+
+input DietLogCreateInput {
+  mealName: String
+  mealDescription: String
+  logTime: DateTime
+  calories: Int
+  protein: Int
+  carbs: Int
+  fiber: Int
+  sugar: Int
+  createdAt: DateTime
+  user: UserRelateToOneForCreateInput
+}
+
 type Goal {
   id: ID!
   type: GoalTypeType
@@ -196,17 +286,6 @@ input GoalTypeTypeNullableFilter {
   in: [GoalTypeType!]
   notIn: [GoalTypeType!]
   not: GoalTypeTypeNullableFilter
-}
-
-input IntFilter {
-  equals: Int
-  in: [Int!]
-  notIn: [Int!]
-  lt: Int
-  lte: Int
-  gt: Int
-  gte: Int
-  not: IntFilter
 }
 
 input GoalOrderByInput {
@@ -465,6 +544,8 @@ type User {
   activitiesCount(where: ActivityWhereInput! = {}): Int
   medications(where: MedicationWhereInput! = {}, orderBy: [MedicationOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: MedicationWhereUniqueInput): [Medication!]
   medicationsCount(where: MedicationWhereInput! = {}): Int
+  dietLogs(where: DietLogWhereInput! = {}, orderBy: [DietLogOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: DietLogWhereUniqueInput): [DietLog!]
+  dietLogsCount(where: DietLogWhereInput! = {}): Int
 }
 
 type PasswordState {
@@ -502,6 +583,7 @@ input UserWhereInput {
   notifications: NotificationManyRelationFilter
   activities: ActivityManyRelationFilter
   medications: MedicationManyRelationFilter
+  dietLogs: DietLogManyRelationFilter
 }
 
 input ReminderManyRelationFilter {
@@ -539,6 +621,12 @@ input MedicationManyRelationFilter {
   none: MedicationWhereInput
 }
 
+input DietLogManyRelationFilter {
+  every: DietLogWhereInput
+  some: DietLogWhereInput
+  none: DietLogWhereInput
+}
+
 input UserOrderByInput {
   id: OrderDirection
   name: OrderDirection
@@ -571,6 +659,7 @@ input UserUpdateInput {
   notifications: NotificationRelateToManyForUpdateInput
   activities: ActivityRelateToManyForUpdateInput
   medications: MedicationRelateToManyForUpdateInput
+  dietLogs: DietLogRelateToManyForUpdateInput
 }
 
 input ReminderRelateToManyForUpdateInput {
@@ -608,6 +697,13 @@ input MedicationRelateToManyForUpdateInput {
   connect: [MedicationWhereUniqueInput!]
 }
 
+input DietLogRelateToManyForUpdateInput {
+  disconnect: [DietLogWhereUniqueInput!]
+  set: [DietLogWhereUniqueInput!]
+  create: [DietLogCreateInput!]
+  connect: [DietLogWhereUniqueInput!]
+}
+
 input UserUpdateArgs {
   where: UserWhereUniqueInput!
   data: UserUpdateInput!
@@ -631,6 +727,7 @@ input UserCreateInput {
   notifications: NotificationRelateToManyForCreateInput
   activities: ActivityRelateToManyForCreateInput
   medications: MedicationRelateToManyForCreateInput
+  dietLogs: DietLogRelateToManyForCreateInput
 }
 
 input ReminderRelateToManyForCreateInput {
@@ -658,6 +755,11 @@ input MedicationRelateToManyForCreateInput {
   connect: [MedicationWhereUniqueInput!]
 }
 
+input DietLogRelateToManyForCreateInput {
+  create: [DietLogCreateInput!]
+  connect: [DietLogWhereUniqueInput!]
+}
+
 """
 The `JSON` scalar type represents JSON values as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf).
 """
@@ -670,6 +772,12 @@ type Mutation {
   updateActivities(data: [ActivityUpdateArgs!]!): [Activity]
   deleteActivity(where: ActivityWhereUniqueInput!): Activity
   deleteActivities(where: [ActivityWhereUniqueInput!]!): [Activity]
+  createDietLog(data: DietLogCreateInput!): DietLog
+  createDietLogs(data: [DietLogCreateInput!]!): [DietLog]
+  updateDietLog(where: DietLogWhereUniqueInput!, data: DietLogUpdateInput!): DietLog
+  updateDietLogs(data: [DietLogUpdateArgs!]!): [DietLog]
+  deleteDietLog(where: DietLogWhereUniqueInput!): DietLog
+  deleteDietLogs(where: [DietLogWhereUniqueInput!]!): [DietLog]
   createGoal(data: GoalCreateInput!): Goal
   createGoals(data: [GoalCreateInput!]!): [Goal]
   updateGoal(where: GoalWhereUniqueInput!, data: GoalUpdateInput!): Goal
@@ -726,6 +834,9 @@ type Query {
   activities(where: ActivityWhereInput! = {}, orderBy: [ActivityOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: ActivityWhereUniqueInput): [Activity!]
   activity(where: ActivityWhereUniqueInput!): Activity
   activitiesCount(where: ActivityWhereInput! = {}): Int
+  dietLogs(where: DietLogWhereInput! = {}, orderBy: [DietLogOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: DietLogWhereUniqueInput): [DietLog!]
+  dietLog(where: DietLogWhereUniqueInput!): DietLog
+  dietLogsCount(where: DietLogWhereInput! = {}): Int
   goals(where: GoalWhereInput! = {}, orderBy: [GoalOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: GoalWhereUniqueInput): [Goal!]
   goal(where: GoalWhereUniqueInput!): Goal
   goalsCount(where: GoalWhereInput! = {}): Int
