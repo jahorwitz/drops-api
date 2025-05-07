@@ -82,9 +82,22 @@ model Notification {
   @@index([userId])
 }
 
+model Reminder {
+  id        String    @id @default(uuid())
+  label     String    @default("")
+  type      String    @default("meal")
+  time      String    @default("")
+  createdAt DateTime? @default(now())
+  user      User?     @relation("Reminder_user", fields: [userId], references: [id])
+  userId    String?   @map("user")
+
+  @@index([userId])
+}
+
 model User {
   id                     String         @id @default(uuid())
   name                   String         @default("")
+  reminders              Reminder[]     @relation("Reminder_user")
   email                  String         @unique @default("")
   password               String
   createdAt              DateTime?      @default(now())
