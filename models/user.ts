@@ -92,5 +92,6 @@ export const User = list({
     notifications: relationship({ ref: "Notification.user", many: true }),
     activities: relationship({ ref: "Activity.user", many: true }),
     medications: relationship({ ref: "Medication.user", many: true }),
+    diet: relationship({ ref: "Diet.user", many: false }),
   },
 });
