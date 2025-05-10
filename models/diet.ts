@@ -29,10 +29,10 @@ export const Diet = list({
   fields: {
     mealsPerDay: integer(),
     snacksPerDay: integer(),
-    carbsPerDay: integer(),    // grams
-    fiberPerDay: integer(),    // grams
-    waterPerDay: integer(),    // cups
-    calorieLimit: integer(),   // kcal
+    carbsPerDay: integer(), // grams
+    fiberPerDay: integer(), // grams
+    waterPerDay: integer(), // cups
+    calorieLimit: integer(), // kcal
     createdAt: timestamp({ defaultValue: { kind: "now" } }),
     user: relationship({ ref: "User.diet" }),
   },
