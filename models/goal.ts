@@ -8,7 +8,7 @@ import {
   relationship,
 } from "@keystone-6/core/fields";
 
-export const Goal: ListConfig<Lists.Goal.TypeInfo<any>, any> = list({
+export const Goal: ListConfig<Lists.Goal.TypeInfo> = list({
   access: {
     operation: {
       query: ({ session }) => !!session,
