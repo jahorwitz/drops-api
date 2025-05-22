@@ -37,6 +37,23 @@ model Diet {
   userId       String?   @unique @map("user")
 }
 
+model DietLog {
+  id              String    @id @default(uuid())
+  mealName        String    @default("")
+  mealDescription String    @default("")
+  logTime         DateTime  @default(now())
+  calories        Int
+  protein         Int?
+  carbs           Int?
+  fiber           Int?
+  sugar           Int?
+  createdAt       DateTime? @default(now())
+  user            User?     @relation("DietLog_user", fields: [userId], references: [id])
+  userId          String?   @map("user")
+
+  @@index([userId])
+}
+
 model Goal {
   id            String       @id @default(uuid())
   type          GoalTypeType @map("my_select")
@@ -113,6 +130,7 @@ model User {
   activities             Activity[]     @relation("Activity_user")
   medications            Medication[]   @relation("Medication_user")
   diet                   Diet?          @relation("Diet_user")
+  dietLogs               DietLog[]      @relation("DietLog_user")
 }
 
 enum GoalTypeType {

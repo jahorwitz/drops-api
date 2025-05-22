@@ -3,5 +3,6 @@ export * from "./goal";
 export * from "./medication";
 export * from "./notification";
 export * from "./user";
+export * from "./diet-log";
 export * from "./reminder";
 export * from "./diet";

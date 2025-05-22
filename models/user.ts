@@ -93,5 +93,6 @@ export const User = list({
     activities: relationship({ ref: "Activity.user", many: true }),
     medications: relationship({ ref: "Medication.user", many: true }),
     diet: relationship({ ref: "Diet.user", many: false }),
+    dietLogs: relationship({ ref: "DietLog.user", many: true }),
   },
 });
