@@ -462,6 +462,9 @@ type Reminder {
   label: String
   type: String
   time: String
+  days: String
+  duration: String
+  reminderOffset: String
   createdAt: DateTime
   user: User
 }
@@ -478,6 +481,9 @@ input ReminderWhereInput {
   label: StringFilter
   type: StringFilter
   time: StringFilter
+  days: StringFilter
+  duration: StringFilter
+  reminderOffset: StringFilter
   createdAt: DateTimeNullableFilter
   user: UserWhereInput
 }
@@ -487,6 +493,9 @@ input ReminderOrderByInput {
   label: OrderDirection
   type: OrderDirection
   time: OrderDirection
+  days: OrderDirection
+  duration: OrderDirection
+  reminderOffset: OrderDirection
   createdAt: OrderDirection
 }
 
@@ -494,6 +503,9 @@ input ReminderUpdateInput {
   label: String
   type: String
   time: String
+  days: String
+  duration: String
+  reminderOffset: String
   createdAt: DateTime
   user: UserRelateToOneForUpdateInput
 }
@@ -507,6 +519,9 @@ input ReminderCreateInput {
   label: String
   type: String
   time: String
+  days: String
+  duration: String
+  reminderOffset: String
   createdAt: DateTime
   user: UserRelateToOneForCreateInput
 }

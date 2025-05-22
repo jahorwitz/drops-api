@@ -41,7 +41,14 @@ export const Reminder = list({
       defaultValue: "meal",
     }),
     time: text({ validation: { isRequired: true } }),
+    days: text({
+      ui: { displayMode: "textarea" },
+      validation: { isRequired: false },
+    }),
+    duration: text({ validation: { isRequired: false } }),
+    reminderOffset: text({ validation: { isRequired: false } }),
     createdAt: timestamp({ defaultValue: { kind: "now" } }),
     user: relationship({ ref: "User.reminders" }),
   },
 });
+
