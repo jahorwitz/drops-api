@@ -51,4 +51,3 @@ export const Reminder = list({
     user: relationship({ ref: "User.reminders" }),
   },
 });
-
