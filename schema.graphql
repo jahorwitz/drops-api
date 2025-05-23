@@ -150,6 +150,76 @@ input UserRelateToOneForCreateInput {
   connect: UserWhereUniqueInput
 }
 
+type Diet {
+  id: ID!
+  mealsPerDay: Int
+  snacksPerDay: Int
+  carbsPerDay: Int
+  fiberPerDay: Int
+  waterPerDay: Int
+  calorieLimit: Int
+  createdAt: DateTime
+  user: User
+}
+
+input DietWhereUniqueInput {
+  id: ID
+  user: UserWhereUniqueInput
+}
+
+input DietWhereInput {
+  AND: [DietWhereInput!]
+  OR: [DietWhereInput!]
+  NOT: [DietWhereInput!]
+  id: IDFilter
+  mealsPerDay: IntNullableFilter
+  snacksPerDay: IntNullableFilter
+  carbsPerDay: IntNullableFilter
+  fiberPerDay: IntNullableFilter
+  waterPerDay: IntNullableFilter
+  calorieLimit: IntNullableFilter
+  createdAt: DateTimeNullableFilter
+  user: UserWhereInput
+}
+
+input DietOrderByInput {
+  id: OrderDirection
+  mealsPerDay: OrderDirection
+  snacksPerDay: OrderDirection
+  carbsPerDay: OrderDirection
+  fiberPerDay: OrderDirection
+  waterPerDay: OrderDirection
+  calorieLimit: OrderDirection
+  createdAt: OrderDirection
+}
+
+input DietUpdateInput {
+  mealsPerDay: Int
+  snacksPerDay: Int
+  carbsPerDay: Int
+  fiberPerDay: Int
+  waterPerDay: Int
+  calorieLimit: Int
+  createdAt: DateTime
+  user: UserRelateToOneForUpdateInput
+}
+
+input DietUpdateArgs {
+  where: DietWhereUniqueInput!
+  data: DietUpdateInput!
+}
+
+input DietCreateInput {
+  mealsPerDay: Int
+  snacksPerDay: Int
+  carbsPerDay: Int
+  fiberPerDay: Int
+  waterPerDay: Int
+  calorieLimit: Int
+  createdAt: DateTime
+  user: UserRelateToOneForCreateInput
+}
+
 type DietLog {
   id: ID!
   mealName: String
@@ -471,6 +541,9 @@ type Reminder {
   label: String
   type: String
   time: String
+  days: String
+  duration: String
+  reminderOffset: String
   createdAt: DateTime
   user: User
 }
@@ -487,6 +560,9 @@ input ReminderWhereInput {
   label: StringFilter
   type: StringFilter
   time: StringFilter
+  days: StringFilter
+  duration: StringFilter
+  reminderOffset: StringFilter
   createdAt: DateTimeNullableFilter
   user: UserWhereInput
 }
@@ -496,6 +572,9 @@ input ReminderOrderByInput {
   label: OrderDirection
   type: OrderDirection
   time: OrderDirection
+  days: OrderDirection
+  duration: OrderDirection
+  reminderOffset: OrderDirection
   createdAt: OrderDirection
 }
 
@@ -503,6 +582,9 @@ input ReminderUpdateInput {
   label: String
   type: String
   time: String
+  days: String
+  duration: String
+  reminderOffset: String
   createdAt: DateTime
   user: UserRelateToOneForUpdateInput
 }
@@ -516,6 +598,9 @@ input ReminderCreateInput {
   label: String
   type: String
   time: String
+  days: String
+  duration: String
+  reminderOffset: String
   createdAt: DateTime
   user: UserRelateToOneForCreateInput
 }
@@ -544,6 +629,7 @@ type User {
   activitiesCount(where: ActivityWhereInput! = {}): Int
   medications(where: MedicationWhereInput! = {}, orderBy: [MedicationOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: MedicationWhereUniqueInput): [Medication!]
   medicationsCount(where: MedicationWhereInput! = {}): Int
+  diet: Diet
   dietLogs(where: DietLogWhereInput! = {}, orderBy: [DietLogOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: DietLogWhereUniqueInput): [DietLog!]
   dietLogsCount(where: DietLogWhereInput! = {}): Int
 }
@@ -561,6 +647,7 @@ enum UserDiabetesTypeType {
 input UserWhereUniqueInput {
   id: ID
   email: String
+  diet: DietWhereUniqueInput
 }
 
 input UserWhereInput {
@@ -583,6 +670,7 @@ input UserWhereInput {
   notifications: NotificationManyRelationFilter
   activities: ActivityManyRelationFilter
   medications: MedicationManyRelationFilter
+  diet: DietWhereInput
   dietLogs: DietLogManyRelationFilter
 }
 
@@ -659,6 +747,7 @@ input UserUpdateInput {
   notifications: NotificationRelateToManyForUpdateInput
   activities: ActivityRelateToManyForUpdateInput
   medications: MedicationRelateToManyForUpdateInput
+  diet: DietRelateToOneForUpdateInput
   dietLogs: DietLogRelateToManyForUpdateInput
 }
 
@@ -697,6 +786,12 @@ input MedicationRelateToManyForUpdateInput {
   connect: [MedicationWhereUniqueInput!]
 }
 
+input DietRelateToOneForUpdateInput {
+  create: DietCreateInput
+  connect: DietWhereUniqueInput
+  disconnect: Boolean
+}
+
 input DietLogRelateToManyForUpdateInput {
   disconnect: [DietLogWhereUniqueInput!]
   set: [DietLogWhereUniqueInput!]
@@ -727,6 +822,7 @@ input UserCreateInput {
   notifications: NotificationRelateToManyForCreateInput
   activities: ActivityRelateToManyForCreateInput
   medications: MedicationRelateToManyForCreateInput
+  diet: DietRelateToOneForCreateInput
   dietLogs: DietLogRelateToManyForCreateInput
 }
 
@@ -755,6 +851,11 @@ input MedicationRelateToManyForCreateInput {
   connect: [MedicationWhereUniqueInput!]
 }
 
+input DietRelateToOneForCreateInput {
+  create: DietCreateInput
+  connect: DietWhereUniqueInput
+}
+
 input DietLogRelateToManyForCreateInput {
   create: [DietLogCreateInput!]
   connect: [DietLogWhereUniqueInput!]
@@ -772,6 +873,12 @@ type Mutation {
   updateActivities(data: [ActivityUpdateArgs!]!): [Activity]
   deleteActivity(where: ActivityWhereUniqueInput!): Activity
   deleteActivities(where: [ActivityWhereUniqueInput!]!): [Activity]
+  createDiet(data: DietCreateInput!): Diet
+  createDiets(data: [DietCreateInput!]!): [Diet]
+  updateDiet(where: DietWhereUniqueInput!, data: DietUpdateInput!): Diet
+  updateDiets(data: [DietUpdateArgs!]!): [Diet]
+  deleteDiet(where: DietWhereUniqueInput!): Diet
+  deleteDiets(where: [DietWhereUniqueInput!]!): [Diet]
   createDietLog(data: DietLogCreateInput!): DietLog
   createDietLogs(data: [DietLogCreateInput!]!): [DietLog]
   updateDietLog(where: DietLogWhereUniqueInput!, data: DietLogUpdateInput!): DietLog
@@ -831,26 +938,29 @@ input CreateInitialUserInput {
 }
 
 type Query {
-  activities(where: ActivityWhereInput! = {}, orderBy: [ActivityOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: ActivityWhereUniqueInput): [Activity!]
   activity(where: ActivityWhereUniqueInput!): Activity
+  activities(where: ActivityWhereInput! = {}, orderBy: [ActivityOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: ActivityWhereUniqueInput): [Activity!]
   activitiesCount(where: ActivityWhereInput! = {}): Int
-  dietLogs(where: DietLogWhereInput! = {}, orderBy: [DietLogOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: DietLogWhereUniqueInput): [DietLog!]
+  diet(where: DietWhereUniqueInput!): Diet
+  diets(where: DietWhereInput! = {}, orderBy: [DietOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: DietWhereUniqueInput): [Diet!]
+  dietsCount(where: DietWhereInput! = {}): Int
   dietLog(where: DietLogWhereUniqueInput!): DietLog
+  dietLogs(where: DietLogWhereInput! = {}, orderBy: [DietLogOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: DietLogWhereUniqueInput): [DietLog!]
   dietLogsCount(where: DietLogWhereInput! = {}): Int
-  goals(where: GoalWhereInput! = {}, orderBy: [GoalOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: GoalWhereUniqueInput): [Goal!]
   goal(where: GoalWhereUniqueInput!): Goal
+  goals(where: GoalWhereInput! = {}, orderBy: [GoalOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: GoalWhereUniqueInput): [Goal!]
   goalsCount(where: GoalWhereInput! = {}): Int
-  medications(where: MedicationWhereInput! = {}, orderBy: [MedicationOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: MedicationWhereUniqueInput): [Medication!]
   medication(where: MedicationWhereUniqueInput!): Medication
+  medications(where: MedicationWhereInput! = {}, orderBy: [MedicationOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: MedicationWhereUniqueInput): [Medication!]
   medicationsCount(where: MedicationWhereInput! = {}): Int
-  notifications(where: NotificationWhereInput! = {}, orderBy: [NotificationOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: NotificationWhereUniqueInput): [Notification!]
   notification(where: NotificationWhereUniqueInput!): Notification
+  notifications(where: NotificationWhereInput! = {}, orderBy: [NotificationOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: NotificationWhereUniqueInput): [Notification!]
   notificationsCount(where: NotificationWhereInput! = {}): Int
-  reminders(where: ReminderWhereInput! = {}, orderBy: [ReminderOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: ReminderWhereUniqueInput): [Reminder!]
   reminder(where: ReminderWhereUniqueInput!): Reminder
+  reminders(where: ReminderWhereInput! = {}, orderBy: [ReminderOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: ReminderWhereUniqueInput): [Reminder!]
   remindersCount(where: ReminderWhereInput! = {}): Int
-  users(where: UserWhereInput! = {}, orderBy: [UserOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: UserWhereUniqueInput): [User!]
   user(where: UserWhereUniqueInput!): User
+  users(where: UserWhereInput! = {}, orderBy: [UserOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: UserWhereUniqueInput): [User!]
   usersCount(where: UserWhereInput! = {}): Int
   keystone: KeystoneMeta!
   authenticatedItem: AuthenticatedItem
@@ -869,23 +979,25 @@ type KeystoneAdminMeta {
 
 type KeystoneAdminUIListMeta {
   key: String!
-  itemQueryName: String!
-  listQueryName: String!
-  hideCreate: Boolean!
-  hideDelete: Boolean!
   path: String!
   label: String!
   singular: String!
   plural: String!
   description: String
-  initialColumns: [String!]!
   pageSize: Int!
   labelField: String!
   fields: [KeystoneAdminUIFieldMeta!]!
   groups: [KeystoneAdminUIFieldGroupMeta!]!
+  graphql: KeystoneAdminUIGraphQL!
+  initialColumns: [String!]!
+  initialSearchFields: [String!]!
   initialSort: KeystoneAdminUISort
-  isHidden: Boolean!
   isSingleton: Boolean!
+  hideCreate: Boolean!
+  hideDelete: Boolean!
+  isHidden: Boolean!
+  itemQueryName: String!
+  listQueryName: String!
 }
 
 type KeystoneAdminUIFieldMeta {
@@ -953,6 +1065,33 @@ type KeystoneAdminUIFieldGroupMeta {
   label: String!
   description: String
   fields: [KeystoneAdminUIFieldMeta!]!
+}
+
+type KeystoneAdminUIGraphQL {
+  names: KeystoneAdminUIGraphQLNames!
+}
+
+type KeystoneAdminUIGraphQLNames {
+  outputTypeName: String!
+  whereInputName: String!
+  whereUniqueInputName: String!
+  createInputName: String!
+  createMutationName: String!
+  createManyMutationName: String!
+  relateToOneForCreateInputName: String!
+  relateToManyForCreateInputName: String!
+  itemQueryName: String!
+  listOrderName: String!
+  listQueryCountName: String!
+  listQueryName: String!
+  updateInputName: String!
+  updateMutationName: String!
+  updateManyInputName: String!
+  updateManyMutationName: String!
+  relateToOneForUpdateInputName: String!
+  relateToManyForUpdateInputName: String!
+  deleteMutationName: String!
+  deleteManyMutationName: String!
 }
 
 type KeystoneAdminUISort {
