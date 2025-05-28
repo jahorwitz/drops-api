@@ -15,25 +15,25 @@
     "lint:fix": "npx prettier --write --ignore-unknown \"./**/*.ts\""
   },
   "dependencies": {
-    "@keystone-6/auth": "^7.0.0",
-    "@keystone-6/core": "^5.2.0",
-    "@keystone-6/fields-document": "^7.0.0",
-    "@prisma/debug": "^5.3.1",
-    "@prisma/generator-helper": "^5.3.1",
-    "dotenv": "^16.3.1",
-    "fs-extra": "^11.2.0",
+    "@keystone-6/auth": "^8.1.0",
+    "@keystone-6/core": "^6.5.1",
+    "@keystone-6/fields-document": "^9.1.1",
+    "@prisma/debug": "^6.7.0",
+    "@prisma/generator-helper": "^6.7.0",
+    "dotenv": "^16.5.0",
+    "fs-extra": "^11.3.0",
     "keystone": "^4.2.1",
     "lodash": "^4.17.21",
-    "typescript": "^4.9.5"
+    "typescript": "^5.8.3"
   },
   "devDependencies": {
-    "axios": "^1.6.2",
-    "git-commit-msg-linter": "^4.5.0",
-    "googleapis": "^129.0.0",
-    "husky": "^8.0.0",
-    "jest": "^29.6.2",
-    "luxon": "^3.4.4",
-    "prettier": "3.0.1"
+    "axios": "^1.9.0",
+    "git-commit-msg-linter": "^5.0.8",
+    "googleapis": "^148.0.0",
+    "husky": "^9.1.7",
+    "jest": "^29.7.0",
+    "luxon": "^3.6.1",
+    "prettier": "^3.5.3"
   },
   "description": "Welcome to Keystone!",
   "main": "index.js",

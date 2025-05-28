@@ -24,6 +24,19 @@ model Activity {
   @@index([userId])
 }
 
+model Diet {
+  id           String    @id @default(uuid())
+  mealsPerDay  Int?
+  snacksPerDay Int?
+  carbsPerDay  Int?
+  fiberPerDay  Int?
+  waterPerDay  Int?
+  calorieLimit Int?
+  createdAt    DateTime? @default(now())
+  user         User?     @relation("Diet_user", fields: [userId], references: [id])
+  userId       String?   @unique @map("user")
+}
+
 model DietLog {
   id              String    @id @default(uuid())
   mealName        String    @default("")
@@ -83,13 +96,16 @@ model Notification {
 }
 
 model Reminder {
-  id        String    @id @default(uuid())
-  label     String    @default("")
-  type      String    @default("meal")
-  time      String    @default("")
-  createdAt DateTime? @default(now())
-  user      User?     @relation("Reminder_user", fields: [userId], references: [id])
-  userId    String?   @map("user")
+  id             String    @id @default(uuid())
+  label          String    @default("")
+  type           String    @default("meal")
+  time           String    @default("")
+  days           String    @default("")
+  duration       String    @default("")
+  reminderOffset String    @default("")
+  createdAt      DateTime? @default(now())
+  user           User?     @relation("Reminder_user", fields: [userId], references: [id])
+  userId         String?   @map("user")
 
   @@index([userId])
 }
@@ -113,6 +129,7 @@ model User {
   notifications          Notification[] @relation("Notification_user")
   activities             Activity[]     @relation("Activity_user")
   medications            Medication[]   @relation("Medication_user")
+  diet                   Diet?          @relation("Diet_user")
   dietLogs               DietLog[]      @relation("DietLog_user")
 }
 
